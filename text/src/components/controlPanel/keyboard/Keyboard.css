@@ -1,0 +1,9 @@
+/*
+  Keyboard.css
+  מה צריך לעשות:
+  1. [ ] .keyboard - מקשים בשורות (flex-wrap או grid).
+  2. [ ] .keyboard__keys - מכיל את המקשים עצמם.
+*/
+
+.keyboard {
+}

@@ -1,11 +1,48 @@
-/*
-  Key.css
-  מה צריך לעשות:
-  1. [ ] .key - גודל קבוע, ריווח, מסגרת, עיגול פינות, cursor: pointer.
-  2. [ ] .key:hover - שינוי צבע.
-  3. [ ] .key--pressed - אפקט לחיצה.
-  4. [ ] .key--space - רווח רחב יותר.
-*/
 
 .key {
+  position: relative;
+  min-width: 0;
+  min-height: 36px;
+  padding: 5px 2px;
+
+  background: linear-gradient(180deg, #fffdf8, #f3e7d6);
+  border: 1px solid #e4d0b5;
+  border-radius: 8px;
+  box-shadow:
+    0 3px 0 #d9c1a3,
+    0 4px 7px rgba(87, 58, 31, 0.07);
+
+  font-size: clamp(12px, 1.1vw, 17px);
+  user-select: none;
+  overflow: hidden;
+  transition:
+    background 0.12s ease,
+    box-shadow 0.12s ease,
+    transform 0.12s ease;
+}
+
+.key:hover:not(:disabled) {
+  background: #fff0d8;
+  border-color: #cda16c;
+  box-shadow:
+    0 3px 0 #d1b18b,
+    0 0 12px rgba(213, 158, 91, 0.25);
+}
+
+.key:active:not(:disabled),
+.key--pressed {
+  transform: translateY(3px);
+  background: #edce9f;
+  box-shadow: 0 0 0 transparent;
+}
+
+.key:last-child {
+  grid-column: 1 / -1;
+  min-height: 38px;
+  font-size: 12px;
+}
+
+.key:focus-visible {
+  outline: 2px solid #bd8549;
+  outline-offset: 2px;
 }

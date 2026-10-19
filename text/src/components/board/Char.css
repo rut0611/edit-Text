@@ -1,3 +1,4 @@
+/* pre-wrap במקום pre - כדי שהטקסט יירד שורה במקום לחרוג מהאזור */
 .char {
-  white-space: pre;
+  white-space: pre-wrap;
 }

@@ -1,28 +1,34 @@
 import "./TextArea.css";
 import Char from "./Char";
 
-/*
-  TextArea - אזור טקסט אחד, עם כפתור סגירה.
+function TextArea({ id, chars, isFocused, onFocus, onClose }) {
+  let className = "text-area";
+  if (isFocused) {
+    className = "text-area text-area--focused";
+  }
 
-  מקבל (props):   id, chars, isFocused
-  מדווח למעלה:    onFocus(id), onClose(id)
-
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] לקבל את ה-props.
-  2. [ ] לצייר div חיצוני עם className שמשתנה לפי isFocused (למשל "text-area text-area--focused").
-  3. [ ] ב-onClick של ה-div: לקרוא ל-onFocus(id).
-  4. [ ] להוסיף button עם ✕. ב-onClick שלו: לקרוא ל-onClose(id).
-         חשוב: להוסיף e.stopPropagation() כדי שהלחיצה לא תפעיל גם את onFocus.
-  5. [ ] לעבור על chars עם map ולצייר Char לכל תו (עם key - אפשר להשתמש באינדקס בשלב ראשון).
-  6. [ ] להעביר ל-Char: letter, color, size, font.
-  7. [ ] אם chars ריק - להציג הודעה כמו "אין עדיין טקסט".
-*/
-
-function TextArea() {
   return (
-    <div className="text-area">
-      <button>✕</button>
-      <Char />
+    <div className={className} onClick={() => onFocus(id)}>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose(id);
+        }}
+      >
+        ✕
+      </button>
+
+      {chars.length === 0 && <span>אין עדיין טקסט</span>}
+
+      {chars.map((c, index) => (
+        <Char
+          key={index}
+          letter={c.letter}
+          color={c.color}
+          size={c.size}
+          font={c.font}
+        />
+      ))}
     </div>
   );
 }

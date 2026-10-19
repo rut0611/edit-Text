@@ -1,28 +1,81 @@
 import { useState } from "react";
 import "./LoginScreen.css";
+import { userExists, registerUser, checkUser } from "../../utils/storage";
 
-/*
-  LoginScreen - מסך זיהוי משתמש בסיסי. (חלק ד)
+function LoginScreen({ onLogin }) {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [error, setError] = useState("");
 
-  מקבל (props):   אין, או רשימת משתמשים קיימים
-  מדווח למעלה:    onLogin(userName)
+  function handleSubmit(e) {
+    e.preventDefault();
 
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] להגדיר state מקומי: userName ו-password.
-  2. [ ] שתי תיבות input מחוברות ל-state.
-  3. [ ] כפתור "כניסה": בודק שהשדות לא ריקים וקורא ל-onLogin(userName).
-  4. [ ] לבדוק מול storage.js אם המשתמש קיים והסיסמה נכונה (בצד לקוח בלבד, כנדרש בפרויקט).
-  5. [ ] אם משתמש חדש - ליצור אותו דרך storage.js.
-  6. [ ] להציג הודעת שגיאה כשהפרטים לא נכונים.
-*/
+    const name = userName.trim();
 
-function LoginScreen() {
+    if (name === "" || password === "") {
+      setError("יש למלא שם משתמש וסיסמה");
+      return;
+    }
+
+    // ":" משמש כמפריד במפתחות של הקבצים ב-LocalStorage
+    if (name.includes(":")) {
+      setError('שם משתמש לא יכול להכיל את התו ":"');
+      return;
+    }
+
+    if (isNewUser) {
+      if (userExists(name)) {
+        setError("שם המשתמש כבר תפוס");
+        return;
+      }
+      if (!registerUser(name, password)) {
+        setError("היצירה נכשלה");
+        return;
+      }
+      onLogin(name);
+      return;
+    }
+
+    if (!userExists(name)) {
+      setError("משתמש לא קיים. אפשר ליצור משתמש חדש");
+      return;
+    }
+    if (!checkUser(name, password)) {
+      setError("סיסמה שגויה");
+      return;
+    }
+    onLogin(name);
+  }
+
+  function toggleMode() {
+    setIsNewUser(!isNewUser);
+    setError("");
+  }
+
   return (
-    <div className="login-screen">
-      <input />
-      <input type="password" />
-      <button>כניסה</button>
-    </div>
+    <form className="login-screen" onSubmit={handleSubmit}>
+      <h2>{isNewUser ? "יצירת משתמש חדש" : "כניסה"}</h2>
+
+      <input
+        placeholder="שם משתמש"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="סיסמה"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button type="submit">{isNewUser ? "צור משתמש" : "כניסה"}</button>
+      <button type="button" onClick={toggleMode}>
+        {isNewUser ? "יש לי כבר משתמש" : "משתמש חדש"}
+      </button>
+
+      {error !== "" && <p className="login-screen__error">{error}</p>}
+    </form>
   );
 }
 

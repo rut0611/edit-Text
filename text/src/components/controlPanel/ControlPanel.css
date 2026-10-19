@@ -1,9 +1,16 @@
-/*
-  ControlPanel.css
-  מה צריך לעשות:
-  1. [ ] .control-panel - פריסה אופקית של ארבעת הקבוצות (flex, gap).
-  2. [ ] רקע וגבול עליון שמבדילים אותו מהאזור העליון.
-*/
-
+/* שלוש הקבוצות: מקלדת / סגנון / כלי עריכה */
 .control-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px 28px;
+  max-height: 45vh;
+  overflow: auto;
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
 }

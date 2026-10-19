@@ -1,9 +1,22 @@
-/*
-  ScopeToggle.css
-  מה צריך לעשות:
-  1. [ ] .scope-toggle - שני כפתורים צמודים.
-  2. [ ] .scope-toggle__btn--active - הדגשת האפשרות הפעילה.
-*/
 
-.scope-toggle {
+.style-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.style-bar::before {
+  content: "עיצוב הטקסט";
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  color: #745034;
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  font-weight: 700;
 }

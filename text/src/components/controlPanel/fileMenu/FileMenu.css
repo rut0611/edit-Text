@@ -1,10 +1,48 @@
-/*
-  FileMenu.css
-  מה צריך לעשות:
-  1. [ ] .file-menu - סידור הכפתורים והתיבות.
-  2. [ ] .file-menu__input - תיבת שם קובץ.
-  3. [ ] .file-menu__list - רשימת הקבצים.
-*/
 
 .file-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: flex-start;
+  gap: 10px;
+  padding: 18px;
+
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.file-menu > button:first-child {
+  background: var(--warm);
+  border-color: var(--warm);
+  color: white;
+  font-weight: 600;
+}
+
+.file-menu > button:first-child:hover {
+  background: var(--warm-dark);
+  border-color: var(--warm-dark);
+}
+
+.file-menu__current {
+  padding: 7px 12px;
+  border-radius: 9px;
+  background: #f2e2cd;
+  color: #75502f;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+}
+
+.file-menu__input,
+.file-menu__list {
+  width: 100%;
+}
+
+.file-menu__message {
+  width: 100%;
+  color: #8a653c;
+  font-size: 0.85rem;
+  font-weight: 600;
 }

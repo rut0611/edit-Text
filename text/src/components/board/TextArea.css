@@ -1,11 +1,67 @@
-/*
-  TextArea.css
-  מה צריך לעשות:
-  1. [ ] .text-area - מסגרת, ריווח פנימי, גובה מינימלי, יישור לימין אם עברית.
-  2. [ ] .text-area--focused - מסגרת בולטת לאזור הממוקד.
-  3. [ ] .text-area__close - מיקום כפתור הסגירה בפינה.
-  4. [ ] .text-area__empty - עיצוב להודעה "אין עדיין טקסט".
-*/
 
 .text-area {
+  position: relative;
+  flex: 1;
+  min-height: 180px;
+  padding: 38px 24px 24px;
+  overflow: auto;
+
+  background: rgba(255, 253, 247, 0.96);
+  border: 1px solid #ead8bf;
+  border-radius: 14px;
+  box-shadow: inset 0 1px 3px rgba(103, 71, 39, 0.05);
+
+  font-family: var(--font-title);
+  font-size: 18px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  cursor: text;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.text-area:hover {
+  border-color: #d8b58b;
+}
+
+.text-area--focused {
+  border-color: #c18a4d;
+  box-shadow:
+    0 0 0 3px rgba(193, 138, 77, 0.13),
+    inset 0 1px 3px rgba(103, 71, 39, 0.05);
+}
+
+.text-area > button {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  background: #f8eee1;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  box-shadow: none;
+  color: #997452;
+  font-size: 13px;
+}
+
+.text-area > button:hover:not(:disabled) {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.text-area > span:not(.char) {
+  color: #b39a7d;
+  font-style: italic;
+}
+
+.char {
+  white-space: pre-wrap;
 }

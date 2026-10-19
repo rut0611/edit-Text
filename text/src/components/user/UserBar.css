@@ -1,0 +1,31 @@
+
+.user-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.user-bar__title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 700;
+}
+
+.user-bar__name {
+  margin-inline-start: auto;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.user-bar button {
+  background: #f7ead8;
+  border-color: #e6d0b2;
+}

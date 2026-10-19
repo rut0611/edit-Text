@@ -1,23 +1,20 @@
 import "./ScopeToggle.css";
 
-/*
-  ScopeToggle - בחירה אם שינוי הסגנון חל "מכאן והלאה" או "על כל הטקסט".
-
-  מקבל (props):   scope  - "fromNowOn" או "all"
-  מדווח למעלה:    onChange(newScope)
-
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] לקבל את ה-props.
-  2. [ ] להציג שני כפתורים (או radio): "מכאן והלאה" ו"על כל הטקסט".
-  3. [ ] לסמן את הפעיל לפי scope.
-  4. [ ] ב-onClick: לקרוא ל-onChange עם הערך המתאים.
-*/
-
-function ScopeToggle() {
+function ScopeToggle({ scope, onChange }) {
   return (
     <div className="scope-toggle">
-      <button>מכאן והלאה</button>
-      <button>על כל הטקסט</button>
+      <button
+        className={scope === "fromNowOn" ? "scope-toggle__btn--active" : ""}
+        onClick={() => onChange("fromNowOn")}
+      >
+        מכאן והלאה
+      </button>
+      <button
+        className={scope === "all" ? "scope-toggle__btn--active" : ""}
+        onClick={() => onChange("all")}
+      >
+        על כל הטקסט
+      </button>
     </div>
   );
 }

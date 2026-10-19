@@ -9,20 +9,26 @@ import UndoButton from "./UndoButton";
   מקבל (props):   canUndo, searchResults
   מדווח למעלה:    onDelete(type), onSearch(query), onReplace(from, to), onUndo()
 
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] לקבל את ה-props.
-  2. [ ] להציג DeleteButtons ולהעביר לו onDelete.
-  3. [ ] להציג SearchReplace ולהעביר לו searchResults, onSearch, onReplace.
-  4. [ ] להציג UndoButton ולהעביר לו canUndo ו-onUndo.
-  5. [ ] הרכיב רק מעביר הלאה - בלי לוגיקה משלו.
+  הרכיב רק מעביר הלאה - בלי לוגיקה משלו.
 */
 
-function EditTools() {
+function EditTools({
+  onDelete,
+  canUndo,
+  onUndo,
+  searchCount,
+  onSearch,
+  onReplace,
+}) {
   return (
     <div className="edit-tools">
-      <DeleteButtons />
-      <SearchReplace />
-      <UndoButton />
+      <DeleteButtons onDelete={onDelete} />
+      <SearchReplace
+        searchCount={searchCount}
+        onSearch={onSearch}
+        onReplace={onReplace}
+      />
+      <UndoButton canUndo={canUndo} onUndo={onUndo} />
     </div>
   );
 }

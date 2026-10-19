@@ -1,9 +1,56 @@
-/*
-  LoginScreen.css
-  מה צריך לעשות:
-  1. [ ] .login-screen - מרכוז הטופס במסך.
-  2. [ ] .login-screen__error - עיצוב הודעת שגיאה.
-*/
 
 .login-screen {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(400px, 90vw);
+  height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px;
+
+  background: rgba(255, 250, 241, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(78, 49, 25, 0.2);
+  backdrop-filter: blur(16px);
+}
+
+.login-screen h2 {
+  margin: 0 0 8px;
+  text-align: center;
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+}
+
+.login-screen input {
+  padding: 11px 12px;
+  background: #fffdf8;
+}
+
+.login-screen button {
+  padding: 11px;
+}
+
+.login-screen button[type="submit"] {
+  background: #c58a48;
+  border-color: #b77b3a;
+  color: white;
+  font-weight: 600;
+}
+
+.login-screen button[type="submit"]:hover {
+  background: #a96f32;
+}
+
+.login-screen__error {
+  margin: 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 0.9rem;
+  text-align: center;
 }

@@ -1,11 +1,99 @@
-/*
-  App.css - פריסה כללית של המסך
-  מה צריך לעשות:
-  1. [ ] .app - מסך מלא, פריסה בעמודה (display: flex; flex-direction: column).
-  2. [ ] האזור העליון (הטקסטים) תופס את רוב הגובה.
-  3. [ ] האזור התחתון (לוח הבקרה) צמוד לתחתית.
-  4. [ ] direction: rtl אם רוצים ממשק בעברית.
-*/
 
 .app {
+  width: 100%;
+  height: 100dvh;
+  min-height: 600px;
+  padding: 18px;
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(280px, 1fr);
+
+  grid-template-rows:
+    auto
+    minmax(180px, 1fr)
+    minmax(240px, 35vh);
+
+  grid-template-areas:
+    "user user"
+    "board files"
+    "keyboard tools";
+
+  gap: 14px;
+  direction: ltr;
+  overflow: hidden;
+}
+
+.user-bar {
+  grid-area: user;
+  direction: rtl;
+}
+
+.text-areas-board {
+  grid-area: board;
+  direction: rtl;
+  min-width: 0;
+  min-height: 0;
+}
+
+.file-menu {
+  grid-area: files;
+  direction: rtl;
+  align-content: start;
+}
+
+.control-panel {
+  display: contents;
+}
+
+.keyboard {
+  grid-area: keyboard;
+  direction: ltr;
+  min-width: 0;
+  min-height: 0;
+}
+
+.style-bar,
+.edit-tools {
+  direction: rtl;
+  min-width: 0;
+}
+
+.style-bar {
+  grid-area: tools;
+}
+
+.edit-tools {
+  grid-area: tools;
+}
+
+@media (max-width: 900px) {
+  .app {
+    height: auto;
+    min-height: 100dvh;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(220px, auto) auto;
+    grid-template-areas:
+      "user"
+      "files"
+      "board"
+      "keyboard";
+    overflow: visible;
+  }
+
+  .control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .keyboard {
+    width: 100%;
+  }
+
+  .style-bar,
+  .edit-tools {
+    width: 100%;
+  }
 }

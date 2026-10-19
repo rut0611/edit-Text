@@ -1,23 +1,21 @@
 import "./LanguageSwitcher.css";
+import { languageNames } from "../../../data/keyboardLayouts";
 
-/*
-  LanguageSwitcher - כפתורי בחירת שפה (עברית / אנגלית / אימוג'ים / ספרות).
-
-  מקבל (props):   language  - השפה הפעילה, languages - רשימת השפות האפשריות
-  מדווח למעלה:    onChange(lang)
-
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] לקבל את ה-props.
-  2. [ ] לעבור על languages עם map ולצייר button לכל שפה.
-  3. [ ] לסמן את השפה הפעילה ב-className (למשל "language-switcher__btn--active").
-  4. [ ] ב-onClick: לקרוא ל-onChange עם השפה.
-  5. [ ] שמות השפות יגיעו מ-keyboardLayouts.js (Object.keys).
-*/
-
-function LanguageSwitcher() {
+function LanguageSwitcher({ language, languages, onChange }) {
   return (
     <div className="language-switcher">
-      <button>עברית</button>
+      {languages.map((lang) => {
+        let className = "language-switcher__btn";
+        if (lang === language) {
+          className = "language-switcher__btn language-switcher__btn--active";
+        }
+
+        return (
+          <button key={lang} className={className} onClick={() => onChange(lang)}>
+            {languageNames[lang]}
+          </button>
+        );
+      })}
     </div>
   );
 }

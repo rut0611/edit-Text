@@ -1,0 +1,110 @@
+
+:root {
+  --bg-1: #f5e7d2;
+  --bg-2: #e6c9a4;
+  --card: rgba(255, 250, 241, 0.94);
+  --card-solid: #fffaf2;
+  --ink: #493322;
+  --ink-soft: #8b7056;
+  --line: #e2c9a8;
+  --accent: #bd8549;
+  --accent-soft: #f5e6d2;
+  --warm: #c58a48;
+  --warm-dark: #98612e;
+  --danger: #b84b3c;
+  --danger-soft: #fbe8df;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 12px 32px rgba(86, 54, 26, 0.14);
+  --shadow-sm: 0 3px 10px rgba(86, 54, 26, 0.09);
+  --font-ui: "Segoe UI", Arial, sans-serif;
+  --font-title: Georgia, "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  direction: rtl;
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 15% 10%, #fff7e9 0%, transparent 42%),
+    linear-gradient(135deg, #d9b58a, #f4e4ce 48%, #d8b58b);
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card-solid);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(139, 91, 43, 0.13);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+input,
+select {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+input:focus,
+select:focus,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #e7c18f;
+  color: #493322;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

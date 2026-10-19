@@ -1,13 +1,25 @@
-/*
-  historyUtils.js - לוגיקת ביטול (undo). פונקציות טהורות.
+const MAX_HISTORY = 50;
 
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] pushSnapshot(history, snapshot) - מחזירה היסטוריה חדשה עם תמונת מצב נוספת.
-  2. [ ] popSnapshot(history) - מחזירה { snapshot, history } כשהאחרון הוצא.
-  3. [ ] לשקול הגבלת אורך ההיסטוריה (למשל 50 פעולות אחרונות).
-  4. [ ] canUndo(history) - האם יש מה לבטל.
-*/
+export function pushSnapshot(history, snapshot) {
+  const newHistory = [...history, snapshot];
+  if (newHistory.length > MAX_HISTORY) {
+    return newHistory.slice(newHistory.length - MAX_HISTORY);
+  }
 
-export function pushSnapshot(history, snapshot) {}
-export function popSnapshot(history) {}
-export function canUndo(history) {}
+  return newHistory;
+}
+
+export function popSnapshot(history) {
+  if (history.length === 0) {
+    return { snapshot: null, history: history };
+  }
+
+  const lastSnapshot = history[history.length - 1];
+  const shorterHistory = history.slice(0, history.length - 1);
+
+  return { snapshot: lastSnapshot, history: shorterHistory };
+}
+
+export function canUndo(history) {
+  return history.length > 0;
+}

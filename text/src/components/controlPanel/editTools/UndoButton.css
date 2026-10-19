@@ -1,9 +1,19 @@
-/*
-  UndoButton.css
-  מה צריך לעשות:
-  1. [ ] .undo-button - עיצוב הכפתור.
-  2. [ ] .undo-button:disabled - מראה מעומעם.
-*/
 
 .undo-button {
+  align-self: flex-start;
+  background: #c58a48;
+  border-color: #b77b3a;
+  color: #fff;
+  font-weight: 600;
+}
+
+.undo-button:hover:not(:disabled) {
+  background: #a96f32;
+  border-color: #a96f32;
+}
+
+.undo-button:disabled {
+  background: #f5eee4;
+  border-color: var(--line);
+  color: var(--ink-soft);
 }

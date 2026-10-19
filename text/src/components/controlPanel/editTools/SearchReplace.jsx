@@ -1,28 +1,45 @@
 import { useState } from "react";
 import "./SearchReplace.css";
 
-/*
-  SearchReplace - חיפוש והחלפה של תו או מילה.
+function SearchReplace({ searchCount, onSearch, onReplace }) {
+  const [query, setQuery] = useState("");
+  const [replacement, setReplacement] = useState("");
 
-  מקבל (props):   searchResults (אופציונלי - כמה נמצאו)
-  מדווח למעלה:    onSearch(query), onReplace(from, to)
+  function handleSearch() {
+    onSearch(query);
+  }
 
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] להגדיר state מקומי: query (מה לחפש) ו-replacement (במה להחליף).
-  2. [ ] להציג שני input מחוברים ל-state (value + onChange).
-  3. [ ] כפתור "חפש": קורא ל-onSearch(query).
-  4. [ ] כפתור "החלף": קורא ל-onReplace(query, replacement).
-  5. [ ] להציג את תוצאת החיפוש (למשל "נמצאו 3").
-  6. [ ] ה-state כאן מקומי בכוונה: App לא צריך לדעת מה נכתב באמצע ההקלדה.
-*/
+  function handleReplace() {
+    if (query === "") {
+      return;
+    }
+    onReplace(query, replacement);
+  }
 
-function SearchReplace() {
+  let resultText = "";
+  if (searchCount === 0) {
+    resultText = "לא נמצא";
+  } else if (searchCount !== null) {
+    resultText = "נמצאו " + searchCount;
+  }
+
   return (
     <div className="search-replace">
-      <input />
-      <input />
-      <button>חפש</button>
-      <button>החלף</button>
+      <input
+        className="search-replace__input"
+        placeholder="חפש"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <input
+        className="search-replace__input"
+        placeholder="החלף ב..."
+        value={replacement}
+        onChange={(e) => setReplacement(e.target.value)}
+      />
+      <button onClick={handleSearch}>חפש</button>
+      <button onClick={handleReplace}>החלף</button>
+      <span className="search-replace__result">{resultText}</span>
     </div>
   );
 }

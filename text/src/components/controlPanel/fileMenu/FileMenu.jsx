@@ -1,30 +1,85 @@
 import { useState } from "react";
 import "./FileMenu.css";
 
-/*
-  FileMenu - תפריט קבצים: חדש / שמור / שמור בשם / פתח. (חלקים ב + ג)
+function FileMenu({
+  fileNames,
+  currentFileName,
+  onNew,
+  onSave,
+  onSaveAs,
+  onOpen,
+}) {
+  const [fileName, setFileName] = useState("");
+  const [message, setMessage] = useState("");
 
-  מקבל (props):   fileNames  - רשימת שמות הקבצים השמורים של המשתמש הנוכחי
-  מדווח למעלה:    onNew(), onSave(), onSaveAs(name), onOpen(name)
+  function handleSave() {
+    const ok = onSave();
+    setMessage(ok ? "נשמר" : "השמירה נכשלה");
+  }
 
-  מה צריך לעשות בקובץ הזה:
-  1. [ ] להגדיר state מקומי: fileName (מה שנכתב בתיבת "שמור בשם").
-  2. [ ] כפתור "חדש": קורא ל-onNew().
-  3. [ ] כפתור "שמור": קורא ל-onSave().
-  4. [ ] תיבת טקסט + כפתור "שמור בשם": קורא ל-onSaveAs(fileName) ואז מנקה את התיבה.
-  5. [ ] רשימה (select או כפתורים) של fileNames. בבחירה: onOpen(name).
-  6. [ ] אם fileName ריק - לא לשמור, ולהציג הודעה.
-  7. [ ] לא לגעת ב-localStorage כאן. הכול דרך storage.js (שנקרא מ-App).
-*/
+  function handleSaveAs() {
+    const name = fileName.trim();
 
-function FileMenu() {
+    if (name === "") {
+      setMessage("יש להקליד שם קובץ");
+      return;
+    }
+
+    if (fileNames.includes(name) && name !== currentFileName) {
+      const confirmed = window.confirm(
+        'הקובץ "' + name + '" כבר קיים. להחליף אותו?'
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    const ok = onSaveAs(name);
+    setMessage(ok ? "נשמר" : "השמירה נכשלה");
+    if (ok) {
+      setFileName("");
+    }
+  }
+
+  function handleOpen(e) {
+    const name = e.target.value;
+    if (name === "") {
+      return;
+    }
+    onOpen(name);
+    setMessage("");
+  }
+
   return (
     <div className="file-menu">
-      <button>חדש</button>
-      <button>שמור</button>
-      <input />
-      <button>שמור בשם</button>
-      <select></select>
+      <button onClick={onNew}>חדש</button>
+
+      <span className="file-menu__current">
+        {currentFileName ? "קובץ: " + currentFileName : "ללא שם"}
+      </span>
+
+      <button onClick={handleSave} disabled={!currentFileName}>
+        שמור
+      </button>
+
+      <input
+        className="file-menu__input"
+        placeholder="שם קובץ"
+        value={fileName}
+        onChange={(e) => setFileName(e.target.value)}
+      />
+      <button onClick={handleSaveAs}>שמור בשם</button>
+
+      <select className="file-menu__list" value="" onChange={handleOpen}>
+        <option value="">פתח קובץ...</option>
+        {fileNames.map((name) => (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        ))}
+      </select>
+
+      <span className="file-menu__message">{message}</span>
     </div>
   );
 }

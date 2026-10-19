@@ -1,10 +1,19 @@
-/*
-  LanguageSwitcher.css
-  מה צריך לעשות:
-  1. [ ] .language-switcher - שורת כפתורים.
-  2. [ ] .language-switcher__btn - עיצוב כפתור שפה.
-  3. [ ] .language-switcher__btn--active - הדגשת השפה הפעילה.
-*/
-
 .language-switcher {
+  grid-column: 1 / -1; /* שורה שלמה מעל המקשים */
+  display: flex;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.language-switcher__btn {
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.language-switcher__btn.language-switcher__btn--active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
 }

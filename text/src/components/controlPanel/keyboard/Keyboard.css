@@ -1,48 +1,216 @@
-
 .keyboard {
-  display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  grid-auto-rows: minmax(36px, 1fr);
-  align-content: stretch;
-  gap: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 16px;
 
-  background: rgba(255, 248, 236, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: linear-gradient(145deg, #f8f0e5, #eee0ce);
+  border: 1px solid #e7d4bc;
   border-radius: 20px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
+  box-shadow:
+    0 4px 0 #dfcbb2,
+    0 10px 24px rgba(91, 62, 37, 0.10);
 }
 
-.language-switcher {
-  grid-column: 1 / -1;
+/* שורות האותיות */
+.keyboard-keys {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 5px;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
-.language-switcher__btn {
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 0.82rem;
-  background: #fffaf2;
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+.keyboard-row .key {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+}
+
+/* שורה תחתונה */
+.keyboard-bottom-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+.keyboard-bottom-row .key--space {
+  flex: 5 1 0;
+  width: 0;
+  min-width: 0;
+}
+
+/* מקשים מיוחדים */
+.keyboard-special-key {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 42px;
+  padding: 4px 8px;
+
+  color: #684b32;
+  font-family: inherit;
+  font-size: 14px;
+
+  background: linear-gradient(180deg, #ead8c0, #dfc5a5);
+  border: 1px solid #d8bd9c;
+  border-radius: 9px;
+  box-shadow: 0 3px 0 #c9ad8c;
+
+  cursor: pointer;
+}
+
+.keyboard-special-key:active {
+  transform: translateY(2px);
   box-shadow: none;
 }
 
+.keyboard-number-key {
+  flex: 1.3 1 0;
+}
+
+.keyboard-enter-key {
+  flex: 1.2 1 0;
+  font-size: 20px;
+}
+
+.keyboard-backspace-key {
+  flex: 1.6 1 0;
+  font-size: 20px;
+}
+
+.keyboard-delete-key {
+  flex: 1.5 1 0;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* עברית: שורת האמצע מעט מוזחת */
+.keyboard-keys--he .keyboard-row--2 {
+  padding-inline: 3%;
+  box-sizing: border-box;
+}
+
+/* אנגלית: שורת האמצע מוזחת */
+.keyboard-keys--en .keyboard-row--2 {
+  padding-inline: 4%;
+  box-sizing: border-box;
+}
+
+/* ===== כפתור החלפת שפה (בשורה התחתונה) ===== */
+.language-switcher {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  z-index: 10;
+}
+
+.language-switcher__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 42px;
+  padding: 4px 8px;
+
+  color: #684b32;
+  background: linear-gradient(180deg, #ead8c0, #dfc5a5);
+  border: 1px solid #d8bd9c;
+  border-radius: 9px;
+  box-shadow: 0 3px 0 #c9ad8c;
+  cursor: pointer;
+}
+
+.language-switcher__toggle:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.language-switcher__toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* התפריט נפתח כלפי מעלה */
+.language-switcher__menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 165px;
+  padding: 7px;
+
+  background: #fffaf3;
+  border: 1px solid #e7d3ba;
+  border-radius: 13px;
+  box-shadow: 0 6px 18px rgba(77, 50, 28, 0.12);
+}
+
+.language-switcher__btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 11px;
+
+  color: #684b32;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.language-switcher__btn:hover {
+  background: #f3e6d5;
+}
+
 .language-switcher__btn--active {
-  background: #c58a48;
-  border-color: #c58a48;
-  color: white;
-  font-weight: 600;
+  background: #ead4b7;
+  font-weight: 700;
 }
 
 @media (max-width: 600px) {
   .keyboard {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 5px;
+    gap: 8px;
     padding: 10px;
+  }
+
+  .keyboard-row {
+    gap: 4px;
+  }
+
+  .keyboard-keys {
+    gap: 7px;
+  }
+
+  .keyboard-bottom-row {
+    gap: 4px;
+  }
+
+  .keyboard-special-key,
+  .language-switcher__toggle {
+    min-height: 38px;
+    padding-inline: 4px;
+    font-size: 12px;
   }
 }

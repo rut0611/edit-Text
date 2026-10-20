@@ -1,19 +1,10 @@
 import "./EditTools.css";
-import DeleteButtons from "./DeleteButtons";
 import SearchReplace from "./SearchReplace";
 import UndoButton from "./UndoButton";
 
-/*
-  EditTools - עוטף את כלי העריכה: מחיקה, חיפוש והחלפה, ביטול.
 
-  מקבל (props):   canUndo, searchResults
-  מדווח למעלה:    onDelete(type), onSearch(query), onReplace(from, to), onUndo()
-
-  הרכיב רק מעביר הלאה - בלי לוגיקה משלו.
-*/
 
 function EditTools({
-  onDelete,
   canUndo,
   onUndo,
   searchCount,
@@ -22,7 +13,6 @@ function EditTools({
 }) {
   return (
     <div className="edit-tools">
-      <DeleteButtons onDelete={onDelete} />
       <SearchReplace
         searchCount={searchCount}
         onSearch={onSearch}

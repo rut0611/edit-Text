@@ -1,9 +1,17 @@
+
 import "./Key.css";
 
 function Key({ char, onPress }) {
+  const isSpace = char === " ";
+
   return (
-    <button className="key" onClick={() => onPress(char)}>
-      {char}
+    <button
+      type="button"
+      className={`key${isSpace ? " key--space" : ""}`}
+      onClick={() => onPress(char)}
+      aria-label={isSpace ? "רווח" : char}
+    >
+      {isSpace ? "" : char}
     </button>
   );
 }

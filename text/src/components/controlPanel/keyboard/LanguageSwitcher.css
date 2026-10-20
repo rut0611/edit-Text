@@ -1,19 +1,18 @@
+
 .language-switcher {
-  grid-column: 1 / -1; /* שורה שלמה מעל המקשים */
+  position: relative;
   display: flex;
-  gap: 6px;
-  margin-bottom: 4px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
 }
 
-.language-switcher__btn {
-  padding: 4px 14px;
-  border-radius: 999px;
-  font-size: 0.9rem;
+.language-switcher button {
+  font-family: inherit;
 }
 
-.language-switcher__btn.language-switcher__btn--active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  font-weight: 600;
+.language-switcher__toggle:focus-visible,
+.language-switcher__btn:focus-visible {
+  outline: 2px solid #b98145;
+  outline-offset: 2px;
 }

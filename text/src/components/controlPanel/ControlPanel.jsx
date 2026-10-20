@@ -25,6 +25,7 @@ function ControlPanel({
         language={language}
         onKeyPress={onTypeLetter}
         onLanguageChange={setLanguage}
+        onDelete={onDelete}
       />
       <div className="tools-area">
         <StyleBar
@@ -34,7 +35,6 @@ function ControlPanel({
           onScopeChange={onScopeChange}
         />
         <EditTools
-          onDelete={onDelete}
           canUndo={canUndo}
           onUndo={onUndo}
           searchCount={searchCount}

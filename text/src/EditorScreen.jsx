@@ -1,17 +1,16 @@
 // src/EditorScreen.jsx
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import TextAreasBoard from "./components/board/TextAreasBoard";
 import ControlPanel from "./components/controlPanel/ControlPanel";
 import FileMenu from "./components/controlPanel/fileMenu/FileMenu";
 import SaveOnCloseDialog from "./components/dialogs/SaveOnCloseDialog";
-import UserBar from "./components/user/UserBar"; // חדש
+import UserBar from "./components/user/UserBar";
 import useSheets from "./hooks/useSheets";
 import useFiles from "./hooks/useFiles";
 import { defaultStyle } from "./data/styleOptions";
 import { isSheetDirty } from "./utils/sheetUtils";
 
-// שונה: הפונקציה מקבלת את שם המשתמש ופונקציית ההתנתקות
 function EditorScreen({ userName, onLogout }) {
   const {
     sheets,
@@ -30,30 +29,166 @@ function EditorScreen({ userName, onLogout }) {
     markSheetSaved,
     openSheetFromFile,
     addNewSheet,
+    renameSheet,
     focusSheet,
     closeSheet,
   } = useSheets();
 
-  // שונה: במקום "guest" שולחים את המשתמש האמיתי
-  const { fileNames, save, open } = useFiles(userName);
+  const { fileNames, save, open, rename } = useFiles(userName);
 
   const [closingId, setClosingId] = useState(null);
   const closingSheet = sheets.find((s) => s.id === closingId) || null;
 
+  // ---------- שינוי שם של לשונית ----------
+  // renaming = { id, value, fresh } או null.
+  // fresh = true כל עוד לא נגעו בשם: האות הראשונה מחליפה את כל השם (כמו טקסט מסומן).
+  // ה-ref תמיד מחזיק את הערך העדכני, כדי שלחיצות מהירות וקריאות כפולות לא יתבלבלו.
+  const [renaming, setRenamingState] = useState(null);
+  const renamingRef = useRef(null);
+
+  function setRenaming(next) {
+    renamingRef.current = next;
+    setRenamingState(next);
+  }
+
+  function startRename(id) {
+    if (renamingRef.current) {
+      commitRename();
+    }
+    const sheet = sheets.find((s) => s.id === id);
+    if (!sheet) {
+      return;
+    }
+    setRenaming({
+      id: id,
+      value: sheet.fileName || sheet.draftName || "",
+      fresh: true,
+    });
+  }
+
+  // הקלדה במקלדת הפיזית
+  function changeRenameValue(value) {
+    if (!renamingRef.current) {
+      return;
+    }
+    setRenaming({ ...renamingRef.current, value: value, fresh: false });
+  }
+
+  function cancelRename() {
+    setRenaming(null);
+  }
+
+  function commitRename() {
+    const current = renamingRef.current;
+    if (!current) {
+      return;
+    }
+    setRenaming(null);
+    applyRename(current.id, current.value);
+  }
+
+  // המקלדת שעל המסך: בזמן שינוי שם האותיות נכנסות לשם ולא לגליון
+  function handleTypeLetter(letter) {
+    const current = renamingRef.current;
+    if (!current) {
+      typeLetter(letter);
+      return;
+    }
+    let base = current.value;
+    if (current.fresh) {
+      base = "";
+    }
+    setRenaming({ ...current, value: base + letter, fresh: false });
+  }
+
+  // כפתורי המחיקה: בזמן שינוי שם הם מוחקים מהשם ולא מהגליון
+  function handleDelete(type) {
+    const current = renamingRef.current;
+    if (!current) {
+      deleteText(type);
+      return;
+    }
+
+    let value = current.value;
+    if (current.fresh || type === "all") {
+      value = "";
+    } else if (type === "char") {
+      value = Array.from(value).slice(0, -1).join("");
+    } else if (type === "word") {
+      value = value.replace(/\s+$/, "").replace(/\S+$/, "");
+    }
+    setRenaming({ ...current, value: value, fresh: false });
+  }
+
+  // לחיצה על מקשי המקלדת / כפתורי המחיקה לא "גונבת" את הפוקוס משדה השם
+  function handleAppMouseDown(e) {
+    if (
+      renamingRef.current &&
+      e.target.closest(".keyboard button, .delete-buttons button")
+    ) {
+      e.preventDefault();
+    }
+  }
+
+  // השינוי עצמו: שם הלשונית, ואם הגליון שמור - גם הקובץ
+  function applyRename(id, newName) {
+    const sheet = sheets.find((s) => s.id === id);
+    if (!sheet) {
+      return;
+    }
+
+    const name = newName.trim();
+    const currentName = sheet.fileName || sheet.draftName || "";
+    if (name === "" || name === currentName) {
+      return;
+    }
+
+    // הקובץ הזה פתוח כרגע בגליון אחר
+    if (sheets.some((s) => s.id !== id && s.fileName === name)) {
+      window.alert('הקובץ "' + name + '" פתוח בגליון אחר. יש לסגור אותו קודם.');
+      return;
+    }
+
+    if (fileNames.includes(name)) {
+      const confirmed = window.confirm(
+        'הקובץ "' + name + '" כבר קיים. להחליף אותו?'
+      );
+      if (!confirmed) {
+        return;
+      }
+    }
+
+    // גליון ששמור כקובץ - משנים גם את הקובץ עצמו
+    if (sheet.fileName !== null) {
+      const ok = rename(sheet.fileName, name);
+      if (!ok) {
+        window.alert("שינוי השם נכשל");
+        return;
+      }
+    }
+
+    renameSheet(id, name);
+  }
+
+  // ---------- שמירה ופתיחה ----------
   let currentStyle = defaultStyle;
   let currentFileName = null;
   if (focusedSheet) {
     currentStyle = focusedSheet.style;
-    currentFileName = focusedSheet.fileName;
+    currentFileName = focusedSheet.fileName || focusedSheet.draftName || null;
   }
 
   function handleSave() {
-    if (!focusedSheet || !focusedSheet.fileName) {
+    if (!focusedSheet) {
       return false;
     }
-    const ok = save(focusedSheet.fileName, focusedSheet.chars);
+    const name = focusedSheet.fileName || focusedSheet.draftName;
+    if (!name) {
+      return false;
+    }
+    const ok = save(name, focusedSheet.chars);
     if (ok) {
-      markSheetSaved(focusedSheet.fileName);
+      markSheetSaved(name);
     }
     return ok;
   }
@@ -114,7 +249,6 @@ function EditorScreen({ userName, onLogout }) {
     setClosingId(null);
   }
 
-  // חדש: התנתקות, עם אזהרה אם יש שינויים שלא נשמרו
   function handleLogout() {
     const hasUnsaved = sheets.some(isSheetDirty);
     if (hasUnsaved) {
@@ -127,27 +261,30 @@ function EditorScreen({ userName, onLogout }) {
   }
 
   return (
-    <div className="app">
+    <div className="app" onMouseDown={handleAppMouseDown}>
       <aside className="side-panel">
         <UserBar userName={userName} onLogout={handleLogout} />
-
 
         <FileMenu
           fileNames={fileNames}
           currentFileName={currentFileName}
-          onNew={addNewSheet}
           onSave={handleSave}
           onSaveAs={handleSaveAs}
           onOpen={handleOpen}
         />
-
       </aside>
 
       <TextAreasBoard
         texts={sheets}
         focusedId={focusedId}
+        renaming={renaming}
         onFocus={focusSheet}
         onClose={handleClose}
+        onNew={addNewSheet}
+        onRenameStart={startRename}
+        onRenameChange={changeRenameValue}
+        onRenameCommit={commitRename}
+        onRenameCancel={cancelRename}
       />
 
       <div className="image-area">{/* תמונה - בהמשך */}</div>
@@ -157,10 +294,10 @@ function EditorScreen({ userName, onLogout }) {
         scope={scope}
         canUndo={canUndo}
         searchCount={searchCount}
-        onTypeLetter={typeLetter}
+        onTypeLetter={handleTypeLetter}
         onStyleChange={changeStyle}
         onScopeChange={setScope}
-        onDelete={deleteText}
+        onDelete={handleDelete}
         onUndo={undo}
         onSearch={search}
         onReplace={replace}
@@ -169,17 +306,15 @@ function EditorScreen({ userName, onLogout }) {
       {closingSheet && (
         <SaveOnCloseDialog
           key={closingSheet.id}
-          currentFileName={closingSheet.fileName}
+          currentFileName={closingSheet.fileName || closingSheet.draftName || null}
           fileNames={fileNames}
           onSave={handleSaveAndClose}
           onDontSave={handleCloseWithoutSaving}
           onCancel={handleCancelClose}
         />
       )}
-
     </div>
   );
 }
 
-// שונה: שם הייצוא
 export default EditorScreen;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { saveFile, loadFile, listFiles } from "../utils/storage";
+import { saveFile, loadFile, listFiles, renameFile } from "../utils/storage";
 
 function useFiles(userName) {
   const [fileNames, setFileNames] = useState(() => listFiles(userName));
@@ -18,7 +18,16 @@ function useFiles(userName) {
     return loadFile(userName, fileName);
   }
 
-  return { fileNames, save, open };
+  // משנה שם של קובץ שמור ומרעננת את הרשימה. מחזירה true/false
+  function rename(oldName, newName) {
+    const ok = renameFile(userName, oldName, newName);
+    if (ok) {
+      setFileNames(listFiles(userName));
+    }
+    return ok;
+  }
+
+  return { fileNames, save, open, rename };
 }
 
 export default useFiles;

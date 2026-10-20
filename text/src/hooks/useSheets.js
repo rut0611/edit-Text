@@ -25,7 +25,9 @@ function useSheets() {
 
   const focusedSheet = sheets.find((s) => s.id === focusedId) || null;
   let searchCount = null;
-if (focusedSheet && searchQuery !== "") {searchCount = countMatches(focusedSheet.chars, searchQuery);}
+  if (focusedSheet && searchQuery !== "") {
+    searchCount = countMatches(focusedSheet.chars, searchQuery);
+  }
 
   // מחליפה את הגיליון הממוקד בתוצאה של changeFn.
   // משתמשים בצורה הפונקציונלית של setSheets כדי לעבוד תמיד על הרשימה העדכנית.
@@ -90,24 +92,40 @@ if (focusedSheet && searchQuery !== "") {searchCount = countMatches(focusedSheet
   }
 
   function search(query) {
-  setSearchQuery(query);
-}
+    setSearchQuery(query);
+  }
 
-function replace(from, to) {
-  updateFocusedSheet((sheet) => {
-    // אין מה להחליף - לא שומרים היסטוריה סתם
-    if (countMatches(sheet.chars, from) === 0) {
-      return sheet;
-    }
-    return updateChars(sheet, replaceMatches(sheet.chars, from, to));
-  });
-}
+  function replace(from, to) {
+    updateFocusedSheet((sheet) => {
+      // אין מה להחליף - לא שומרים היסטוריה סתם
+      if (countMatches(sheet.chars, from) === 0) {
+        return sheet;
+      }
+      return updateChars(sheet, replaceMatches(sheet.chars, from, to));
+    });
+  }
 
   function addNewSheet() {
     const newSheet = createSheet(Date.now());
     setSheets([...sheets, newSheet]);
     setFocusedId(newSheet.id);
     setScope(defaultScope);
+  }
+
+  // גליון ששמור כקובץ - מעדכנת את שם הקובץ שלו.
+  // גליון שעדיין לא נשמר - קובעת לו שם טיוטה (הקובץ ייווצר רק בשמירה).
+  function renameSheet(id, name) {
+    setSheets((prevSheets) =>
+      prevSheets.map((sheet) => {
+        if (sheet.id !== id) {
+          return sheet;
+        }
+        if (sheet.fileName !== null) {
+          return { ...sheet, fileName: name };
+        }
+        return { ...sheet, draftName: name };
+      })
+    );
   }
 
   function focusSheet(id) {
@@ -130,22 +148,22 @@ function replace(from, to) {
     setScope(defaultScope);
   }
 
-// מסמנת שהמצב הנוכחי של הגיליון הממוקד נשמר בקובץ בשם הזה
-function markSheetSaved(fileName) {
-  updateFocusedSheet((sheet) => ({
-    ...sheet,
-    fileName: fileName,
-    savedChars: sheet.chars,
-  }));
-}
+  // מסמנת שהמצב הנוכחי של הגיליון הממוקד נשמר בקובץ בשם הזה
+  function markSheetSaved(fileName) {
+    updateFocusedSheet((sheet) => ({
+      ...sheet,
+      fileName: fileName,
+      savedChars: sheet.chars,
+    }));
+  }
 
-// פותחת גיליון חדש עם תוכן שנטען מקובץ
-function openSheetFromFile(fileName, chars) {
-  const newSheet = createSheet(Date.now(), chars, fileName);
-  setSheets([...sheets, newSheet]);
-  setFocusedId(newSheet.id);
-  setScope(defaultScope);
-}
+  // פותחת גיליון חדש עם תוכן שנטען מקובץ
+  function openSheetFromFile(fileName, chars) {
+    const newSheet = createSheet(Date.now(), chars, fileName);
+    setSheets([...sheets, newSheet]);
+    setFocusedId(newSheet.id);
+    setScope(defaultScope);
+  }
 
   return {
     sheets,
@@ -159,13 +177,14 @@ function openSheetFromFile(fileName, chars) {
     undo,
     canUndo: focusedSheet ? canUndo(focusedSheet.history) : false,
     addNewSheet,
+    renameSheet,
     focusSheet,
     closeSheet,
     searchCount,
     search,
     replace,
     markSheetSaved,
-openSheetFromFile,
+    openSheetFromFile,
   };
 }
 

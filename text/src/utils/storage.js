@@ -14,6 +14,23 @@ export function saveFile(userName, fileName, chars) {
   }
 }
 
+// משנה שם של קובץ שמור. אם קיים קובץ בשם החדש - הוא נדרס.
+// מחזירה true אם הצליח, false אם נכשל (למשל הקובץ הישן לא קיים)
+export function renameFile(userName, oldName, newName) {
+  try {
+    const oldKey = makeKey(userName, oldName);
+    const text = localStorage.getItem(oldKey);
+    if (text === null) {
+      return false;
+    }
+    localStorage.setItem(makeKey(userName, newName), text);
+    localStorage.removeItem(oldKey);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 // קוראת קובץ. מחזירה את מערך התווים, או null אם אין קובץ / הוא פגום
 export function loadFile(userName, fileName) {
   try {

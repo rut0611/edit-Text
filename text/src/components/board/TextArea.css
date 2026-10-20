@@ -1,67 +1,74 @@
-
+/* ---- הגליון: אותו צבע כמו המסגרת, מובדל רק בצל עדין ---- */
 .text-area {
   position: relative;
   flex: 1;
-  min-height: 180px;
-  padding: 38px 24px 24px;
+  min-width: 0;
+  padding: 28px 34px;
   overflow: auto;
 
-  background: rgba(255, 253, 247, 0.96);
-  border: 1px solid #ead8bf;
-  border-radius: 14px;
-  box-shadow: inset 0 1px 3px rgba(103, 71, 39, 0.05);
+  background: #f7efe1;
+  border: 1px solid rgba(160, 120, 70, 0.1);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(103, 71, 39, 0.05),
+    0 6px 16px -6px rgba(103, 71, 39, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
 
-  font-family: var(--font-title);
-  font-size: 18px;
-  line-height: 1.8;
+  line-height: 1.7;
   overflow-wrap: anywhere;
   cursor: text;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
-.text-area:hover {
-  border-color: #d8b58b;
+.text-area::-webkit-scrollbar {
+  width: 7px;
 }
 
-.text-area--focused {
-  border-color: #c18a4d;
-  box-shadow:
-    0 0 0 3px rgba(193, 138, 77, 0.13),
-    inset 0 1px 3px rgba(103, 71, 39, 0.05);
-}
-
-.text-area > button {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 27px;
-  height: 27px;
-  padding: 0;
-
-  display: grid;
-  place-items: center;
-
-  background: #f8eee1;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  box-shadow: none;
-  color: #997452;
-  font-size: 13px;
-}
-
-.text-area > button:hover:not(:disabled) {
-  background: var(--danger-soft);
-  color: var(--danger);
-}
-
-.text-area > span:not(.char) {
-  color: #b39a7d;
-  font-style: italic;
+.text-area::-webkit-scrollbar-thumb {
+  background: #dcc09a;
+  border-radius: 10px;
 }
 
 .char {
   white-space: pre-wrap;
+}
+
+/* ---- סמן הכתיבה: בהיר, מהבהב לאט ובעדינות ---- */
+.text-area__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-inline: 1px;
+  vertical-align: text-bottom;
+  background-color: currentColor;
+  border-radius: 1px;
+  opacity: 0.55;
+  animation: caret-blink 1.8s ease-in-out infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  40% {
+    opacity: 0.55;
+  }
+  60%,
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+/* אם המשתמש ביקש פחות אנימציות - הסמן קבוע */
+@media (prefers-reduced-motion: reduce) {
+  .text-area__caret {
+    animation: none;
+  }
+}
+
+.text-area__placeholder {
+  margin-inline-start: 8px;
+  color: #b3a085;
+  font-size: 18px;
+  font-style: italic;
 }

@@ -1,25 +1,241 @@
-
+/* ---- השטח הראשי: קרם בהיר (אותו צבע כמו הגליון) ---- */
 .text-areas-board {
+  --paper: #f7efe1;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-  overflow: auto;
+  gap: 6px;
+  padding: 10px 14px 16px;
   min-width: 0;
   min-height: 0;
 
-  background: rgba(255, 249, 239, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: var(--paper);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 20px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
 }
 
-.text-areas-board::-webkit-scrollbar {
-  width: 7px;
+/* ---- שורת הלשוניות (LTR כמו בתמונה) ---- */
+.tabs-bar {
+  display: flex;
+  direction: ltr;
+  align-items: flex-end;
+  gap: 2px;
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0 2px;
+  overflow: hidden;
 }
 
-.text-areas-board::-webkit-scrollbar-thumb {
-  background: #d5b38b;
-  border-radius: 10px;
+/* ---- לשונית ---- */
+.sheet-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 1 180px;      /* מצטמצמת אוטומטית כשיש הרבה לשוניות */
+  min-width: 44px;
+  height: 38px;
+  padding: 0 8px 0 14px;
+
+  background: transparent;
+  border-radius: 12px 12px 0 0;
+  color: #9a8266;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.sheet-tab:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* הקו הכתום העדין מתחת ללשונית הפעילה */
+.sheet-tab::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #c9904f;
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.sheet-tab--active,
+.sheet-tab--active:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: #4a3724;
+}
+
+.sheet-tab--active::after {
+  transform: scaleX(1);
+}
+
+/* ---- איפוס עיצוב הכפתורים הגלובלי בתוך הלשונית ---- */
+.sheet-tab button,
+.sheet-tab button:hover:not(:disabled),
+.sheet-tab button:active:not(:disabled) {
+  background: none;
+  border: none;
+  box-shadow: none;
+  transform: none;
+}
+
+.sheet-tab .sheet-tab__name {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: start;
+  font-size: 0.9rem;
+  color: inherit;
+  user-select: none;
+}
+
+/* ---- שדה שינוי שם ---- */
+.sheet-tab .sheet-tab__input {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 1px #dcc09a;
+  font-size: 0.9rem;
+  color: #4a3724;
+}
+
+.sheet-tab .sheet-tab__input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 1px #c9904f, 0 0 0 3px rgba(201, 144, 79, 0.18);
+}
+
+/* ---- האיקס ---- */
+.sheet-tab .sheet-tab__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 11px;
+  color: #b6a085;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sheet-tab .sheet-tab__close:hover:not(:disabled) {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ---- כפתור + ליד הלשוניות ---- */
+.tabs-bar .tabs-bar__add {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin: 0 0 4px 4px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition: background 0.2s ease;
+}
+
+.tabs-bar .tabs-bar__add::before,
+.tabs-bar .tabs-bar__add::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 2px;
+  background: #b99b76;
+  transform: translate(-50%, -50%);
+  transition: background 0.2s ease;
+}
+
+.tabs-bar .tabs-bar__add::before {
+  width: 12px;
+  height: 1.8px;
+}
+
+.tabs-bar .tabs-bar__add::after {
+  width: 1.8px;
+  height: 12px;
+}
+
+.tabs-bar .tabs-bar__add:hover:not(:disabled) {
+  background: rgba(201, 144, 79, 0.14);
+  border: none;
+  box-shadow: none;
+}
+
+.tabs-bar .tabs-bar__add:hover::before,
+.tabs-bar .tabs-bar__add:hover::after {
+  background: #98612e;
+}
+
+/* ---- אזור הגליון ---- */
+.sheet-frame {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ---- כשאין אף גליון: פלוס בהיר, באמצע, בלי מסגרת ---- */
+.sheet-frame .empty-add {
+  position: relative;
+  margin: auto;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.sheet-frame .empty-add::before,
+.sheet-frame .empty-add::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 2px;
+  background: #dccbb0;
+  transform: translate(-50%, -50%);
+  transition: background 0.25s ease;
+}
+
+.sheet-frame .empty-add::before {
+  width: 36px;
+  height: 2px;
+}
+
+.sheet-frame .empty-add::after {
+  width: 2px;
+  height: 36px;
+}
+
+.sheet-frame .empty-add:hover:not(:disabled) {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.sheet-frame .empty-add:hover::before,
+.sheet-frame .empty-add:hover::after {
+  background: #c9a574;
 }

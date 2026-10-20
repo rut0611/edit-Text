@@ -128,8 +128,20 @@ function EditorScreen({ userName, onLogout }) {
 
   return (
     <div className="app">
-      {/* שונה: במקום <h1>העורך שלי</h1> */}
-      <UserBar userName={userName} onLogout={handleLogout} />
+      <aside className="side-panel">
+        <UserBar userName={userName} onLogout={handleLogout} />
+
+
+        <FileMenu
+          fileNames={fileNames}
+          currentFileName={currentFileName}
+          onNew={addNewSheet}
+          onSave={handleSave}
+          onSaveAs={handleSaveAs}
+          onOpen={handleOpen}
+        />
+
+      </aside>
 
       <TextAreasBoard
         texts={sheets}
@@ -138,25 +150,7 @@ function EditorScreen({ userName, onLogout }) {
         onClose={handleClose}
       />
 
-      {closingSheet && (
-        <SaveOnCloseDialog
-          key={closingSheet.id}
-          currentFileName={closingSheet.fileName}
-          fileNames={fileNames}
-          onSave={handleSaveAndClose}
-          onDontSave={handleCloseWithoutSaving}
-          onCancel={handleCancelClose}
-        />
-      )}
-
-      <FileMenu
-        fileNames={fileNames}
-        currentFileName={currentFileName}
-        onNew={addNewSheet}
-        onSave={handleSave}
-        onSaveAs={handleSaveAs}
-        onOpen={handleOpen}
-      />
+      <div className="image-area">{/* תמונה - בהמשך */}</div>
 
       <ControlPanel
         style={currentStyle}
@@ -171,6 +165,18 @@ function EditorScreen({ userName, onLogout }) {
         onSearch={search}
         onReplace={replace}
       />
+
+      {closingSheet && (
+        <SaveOnCloseDialog
+          key={closingSheet.id}
+          currentFileName={closingSheet.fileName}
+          fileNames={fileNames}
+          onSave={handleSaveAndClose}
+          onDontSave={handleCloseWithoutSaving}
+          onCancel={handleCancelClose}
+        />
+      )}
+
     </div>
   );
 }

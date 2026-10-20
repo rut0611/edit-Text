@@ -1,4 +1,3 @@
-
 :root {
   --bg-1: #f5e7d2;
   --bg-2: #e6c9a4;
@@ -20,11 +19,9 @@
   --font-ui: "Segoe UI", Arial, sans-serif;
   --font-title: Georgia, "Times New Roman", serif;
 }
-
-* {
+*{
   box-sizing: border-box;
 }
-
 html,
 body,
 #root {
@@ -33,23 +30,28 @@ body,
   height: 100%;
   margin: 0;
 }
-
+/* הגדרת השקיפות ל-root כדי שלא יסתיר את התמונה שעל ה-body */
+#root {
+  background-color: transparent;
+}
 body {
   direction: rtl;
   font-family: var(--font-ui);
   color: var(--ink);
-  background:
-    radial-gradient(ellipse at 15% 10%, #fff7e9 0%, transparent 42%),
-    linear-gradient(135deg, #d9b58a, #f4e4ce 48%, #d8b58b);
+  background-image: url('/media/background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  margin: 0;
 }
-
 button,
 input,
 select {
   font: inherit;
   color: inherit;
 }
-
 button {
   padding: 8px 14px;
   border: 1px solid var(--line);
@@ -63,22 +65,18 @@ button {
     box-shadow 0.2s ease,
     transform 0.15s ease;
 }
-
 button:hover:not(:disabled) {
   background: var(--accent-soft);
   border-color: var(--accent);
   box-shadow: 0 4px 12px rgba(139, 91, 43, 0.13);
 }
-
 button:active:not(:disabled) {
   transform: translateY(1px);
 }
-
 button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
-
 input,
 select {
   min-width: 0;
@@ -87,19 +85,16 @@ select {
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.8);
 }
-
 input:focus,
 select:focus,
 button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-
 ::selection {
   background: #e7c18f;
   color: #493322;
 }
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -107,4 +102,17 @@ button:focus-visible {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+html, body, #root {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+body {
+  background-image: url('./media/background.jpg') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  height: 100vh !important;
+  margin: 0 !important;
 }

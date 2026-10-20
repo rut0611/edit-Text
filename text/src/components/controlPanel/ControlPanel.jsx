@@ -26,20 +26,22 @@ function ControlPanel({
         onKeyPress={onTypeLetter}
         onLanguageChange={setLanguage}
       />
-      <StyleBar
-        style={style}
-        scope={scope}
-        onStyleChange={onStyleChange}
-        onScopeChange={onScopeChange}
-      />
-      <EditTools
-        onDelete={onDelete}
-        canUndo={canUndo}
-        onUndo={onUndo}
-        searchCount={searchCount}
-        onSearch={onSearch}
-        onReplace={onReplace}
-      />
+      <div className="tools-area">
+        <StyleBar
+          style={style}
+          scope={scope}
+          onStyleChange={onStyleChange}
+          onScopeChange={onScopeChange}
+        />
+        <EditTools
+          onDelete={onDelete}
+          canUndo={canUndo}
+          onUndo={onUndo}
+          searchCount={searchCount}
+          onSearch={onSearch}
+          onReplace={onReplace}
+        />
+      </div>
     </div>
   );
 }

@@ -1,22 +1,102 @@
-
-.style-bar {
+.style-picker {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 
-  background: var(--card);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 16px;
-  box-shadow: var(--shadow-sm);
+  min-width: 0;
+  color: #795a40;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
-.style-bar::before {
-  content: "עיצוב הטקסט";
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
-  color: #745034;
-  font-family: var(--font-title);
-  font-size: 1.1rem;
-  font-weight: 700;
+.style-picker select {
+  flex: 0 1 140px;
+  width: 140px;
+  min-width: 0;
+  padding: 5px 9px;
+
+  background: #fffdf9;
+  border: 1px solid #ead4b7;
+  border-radius: 9px;
+
+  color: #654a35;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.style-picker select:hover {
+  border-color: #d5b58d;
+}
+
+.style-picker select:focus-visible {
+  border-color: #bd8952;
+  box-shadow: 0 0 0 3px rgba(189, 137, 82, 0.13);
+}
+
+/* ---- התפריט הנפתח (דפדפנים חדשים: Chrome / Edge 135+) ---- */
+@supports (appearance: base-select) {
+  .style-picker select,
+  .style-picker select::picker(select) {
+    appearance: base-select;
+  }
+
+  .style-picker select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .style-picker select::picker-icon {
+    color: #b9854e;
+    transition: rotate 0.2s ease;
+  }
+
+  .style-picker select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  .style-picker select::picker(select) {
+    margin-top: 4px;
+    padding: 4px;
+
+    background: #fffaf2;
+    border: 1px solid #ead4b7;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(99, 70, 44, 0.18);
+  }
+
+  .style-picker option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 9px;
+
+    border-radius: 8px;
+    color: #654a35;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  .style-picker option:hover,
+  .style-picker option:focus-visible {
+    background: #f4e3cc;
+    outline: none;
+  }
+
+  .style-picker option:checked {
+    background: #f4e3cc;
+    font-weight: 600;
+  }
+
+  .style-picker option::checkmark {
+    order: 1;
+    margin-inline-start: auto;
+    color: #b9854e;
+  }
 }

@@ -1,22 +1,75 @@
+.search-replace {
+  direction: rtl;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  align-items: center;
+  padding: 0;
 
-.style-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-
-  background: var(--card);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 16px;
-  box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+  min-width: 0;
 }
 
-.style-bar::before {
-  content: "עיצוב הטקסט";
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
+.search-replace__input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 5px 9px;
+
+  background: #fffdf9;
+  border: 1px solid #e9cfad;
+  border-radius: 9px;
+
+  color: #654a35;
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-replace__input::placeholder {
+  color: #b39a7e;
+}
+
+.search-replace__input:focus {
+  border-color: #c58a48;
+  box-shadow: 0 0 0 3px rgba(197, 138, 72, 0.12);
+}
+
+.search-replace button {
+  padding: 5px 11px;
+
+  background: #f4e3cc;
+  border: 1px solid #e8cfad;
   color: #745034;
-  font-family: var(--font-title);
-  font-size: 1.1rem;
-  font-weight: 700;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.search-replace button:hover {
+  background: #ead2b2;
+  border-color: #d8b78d;
+}
+
+.search-replace__result {
+  grid-column: 1 / -1;
+  min-height: 16px;
+  color: #977858;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 420px) {
+  .search-replace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .search-replace__result {
+    grid-column: auto;
+  }
 }

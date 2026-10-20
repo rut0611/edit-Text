@@ -4,7 +4,6 @@ import "./FileMenu.css";
 function FileMenu({
   fileNames,
   currentFileName,
-  onNew,
   onSave,
   onSaveAs,
   onOpen,
@@ -52,8 +51,6 @@ function FileMenu({
 
   return (
     <div className="file-menu">
-      <button onClick={onNew}>חדש</button>
-
       <span className="file-menu__current">
         {currentFileName ? "קובץ: " + currentFileName : "ללא שם"}
       </span>

@@ -98,11 +98,6 @@ body {
   direction: ltr;
   border-radius: 0;
 }
-/* ---- אזור הטקסט ---- */
-.app .text-areas-board {
-  border-radius: 0;
-  overflow: hidden;
-}
 /* ---- הזזות עדינות ---- */
 .app .text-areas-board {
   transform: translateX(calc(var(--shift) * -0.3));
@@ -118,7 +113,6 @@ body {
 }
 /* ---- מסגרות זמניות (להסרה כשתוסיף עיצוב סופי) ---- */
 .app .side-panel,
-.app .text-areas-board,
 .app .image-area,
 .app .keyboard,
 .app .tools-area {

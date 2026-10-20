@@ -1,4 +1,3 @@
-
 .file-menu {
   display: flex;
   flex-wrap: wrap;
@@ -12,18 +11,6 @@
   border-radius: 18px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
-}
-
-.file-menu > button:first-child {
-  background: var(--warm);
-  border-color: var(--warm);
-  color: white;
-  font-weight: 600;
-}
-
-.file-menu > button:first-child:hover {
-  background: var(--warm-dark);
-  border-color: var(--warm-dark);
 }
 
 .file-menu__current {

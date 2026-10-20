@@ -10,6 +10,7 @@ import useSheets from "./hooks/useSheets";
 import useFiles from "./hooks/useFiles";
 import { defaultStyle } from "./data/styleOptions";
 import { isSheetDirty } from "./utils/sheetUtils";
+import ExportButton from "./components/controlPanel/fileMenu/ExportButton";
 
 function EditorScreen({ userName, onLogout }) {
   const {
@@ -262,16 +263,21 @@ function EditorScreen({ userName, onLogout }) {
 
   return (
     <div className="app" onMouseDown={handleAppMouseDown}>
-      <aside className="side-panel">
-        <UserBar userName={userName} onLogout={handleLogout} />
-
+            <aside className="side-panel">
         <FileMenu
           fileNames={fileNames}
           currentFileName={currentFileName}
           onSave={handleSave}
           onSaveAs={handleSaveAs}
           onOpen={handleOpen}
-        />
+        >
+          <ExportButton
+            chars={focusedSheet ? focusedSheet.chars : []}
+            fileName={currentFileName}
+          />
+        </FileMenu>
+
+        <UserBar userName={userName} onLogout={handleLogout} />
       </aside>
 
       <TextAreasBoard

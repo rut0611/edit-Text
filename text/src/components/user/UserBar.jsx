@@ -1,11 +1,23 @@
 import "./UserBar.css";
+import Icon from "../common/Icon";
 
 function UserBar({ userName, onLogout }) {
+  // האות הראשונה של השם, בתוך העיגול
+  const initial = Array.from(userName)[0];
+
   return (
     <div className="user-bar">
-      <h1 className="user-bar__title">העורך שלי</h1>
-      <span className="user-bar__name">שלום, {userName}</span>
-      <button onClick={onLogout}>התנתקות</button>
+      <div className="user-bar__who">
+        <span className="user-bar__avatar">{initial}</span>
+        <span className="user-bar__name" title={userName}>
+          {userName}
+        </span>
+      </div>
+
+      <button className="menu-item" onClick={onLogout}>
+        <Icon name="logout" />
+        <span>התנתקות</span>
+      </button>
     </div>
   );
 }

@@ -119,3 +119,16 @@ body {
   outline: 2px dashed red;
   outline-offset: 1px;
 }
+
+.app .side-panel {
+  overflow-y: auto;
+}
+
+.export-area {
+  margin-top: 10px;
+  display: flex;
+}
+
+.export-area button {
+  width: 100%;
+}

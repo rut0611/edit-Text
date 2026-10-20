@@ -1,35 +1,151 @@
+/* ---- שורת תפריט: משמשת את כל הפאנל הצדדי ---- */
+.side-panel .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink);
+  font-size: 0.93rem;
+  text-align: start;
+}
+
+.side-panel .menu-item svg {
+  flex-shrink: 0;
+  color: var(--ink-soft);
+}
+
+.side-panel .menu-item:hover:not(:disabled) {
+  background: rgba(233, 220, 203, 0.55);
+  border: none;
+  box-shadow: none;
+}
+
+.side-panel .menu-item--active {
+  background: #eadfcf;
+  font-weight: 700;
+}
+
+.side-panel .menu-item--active svg {
+  color: var(--ink);
+}
+
+.menu-item__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- התפריט ---- */
 .file-menu {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: flex-start;
-  gap: 10px;
-  padding: 18px;
-
-  background: var(--card);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 18px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
 }
 
+.file-menu__label {
+  padding-inline: 4px;
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+
+/* כרטיס הגליון הנוכחי */
 .file-menu__current {
-  padding: 7px 12px;
-  border-radius: 9px;
-  background: #f2e2cd;
-  color: #75502f;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #efe3d1;
+}
+
+.file-menu__name {
+  overflow: hidden;
   font-family: var(--font-title);
-  font-size: 0.9rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.file-menu__input,
-.file-menu__list {
-  width: 100%;
+.file-menu__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
+/* שדה שמירה בשם */
+.file-menu__saveas {
+  display: flex;
+  gap: 6px;
+  padding: 4px 2px 6px;
+}
+
+.file-menu__saveas input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  border-radius: 10px;
+}
+
+.file-menu__confirm {
+  padding: 7px 12px;
+  border-radius: 10px;
+  background: var(--warm);
+  border-color: var(--warm);
+  color: #fff;
+}
+
+.file-menu__confirm:hover:not(:disabled) {
+  background: var(--warm-dark);
+  border-color: var(--warm-dark);
+}
+
+/* הודעה: שומרת מקום קבוע כדי שהפאנל לא יקפוץ */
 .file-menu__message {
-  width: 100%;
-  color: #8a653c;
-  font-size: 0.85rem;
+  min-height: 1.3em;
+  margin: 0;
+  padding-inline: 4px;
+  color: var(--warm-dark);
+  font-size: 0.82rem;
   font-weight: 600;
+}
+
+.file-menu__divider {
+  height: 1px;
+  margin: 2px 0;
+  background: var(--line);
+  opacity: 0.8;
+}
+
+/* רשימת הקבצים: היחידה שגוללת */
+.file-list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.file-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+  background: #dcc09a;
+  border-radius: 10px;
+}
+
+.file-list__empty {
+  padding: 10px 12px;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
 }

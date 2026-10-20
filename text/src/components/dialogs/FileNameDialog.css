@@ -1,0 +1,214 @@
+/* ---- הרקע המוחשך ---- */
+.fn-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(74, 55, 36, 0.38);
+  animation: fn-fade 0.2s ease both;
+}
+
+/* ---- החלונית: דף נייר קטן ---- */
+.fn-dialog {
+  width: min(400px, 100%);
+  padding: 24px 24px 16px;
+
+  background-color: #fbf5ea;
+  background-image: var(--grain);
+  border: 1px solid #ead9bf;
+  border-radius: 22px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 30px 60px -20px rgba(40, 25, 10, 0.55);
+  color: var(--ink);
+
+  animation: fn-pop 0.24s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@keyframes fn-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fn-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- כותרת ---- */
+.fn-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.fn-badge {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #efe3d1;
+  box-shadow: inset 0 0 0 1px #e3d0b3;
+  color: var(--warm-dark);
+}
+
+.fn-title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.fn-sub {
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+/* ---- שדה השם ---- */
+.fn-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.fn-dialog .fn-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #dcc09a;
+  border-radius: 12px;
+  background: #fffdf8;
+  font-size: 1.05rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fn-dialog .fn-input:focus {
+  outline: none;
+  border-color: #c9904f;
+  box-shadow: 0 0 0 4px rgba(201, 144, 79, 0.18);
+}
+
+/* ---- שם הקובץ כשלא צריך לשאול (סגירה של גליון שכבר שמור) ---- */
+.fn-file {
+  overflow: hidden;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: #efe3d1;
+  box-shadow: inset 0 0 0 1px #e3d0b3;
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- שורת ההסבר / אזהרה / שגיאה: גובה קבוע, בלי קפיצות ---- */
+.fn-note {
+  min-height: 2.8em;
+  margin: 8px 2px 10px;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.fn-note--warn {
+  color: var(--warm-dark);
+  font-weight: 600;
+}
+
+.fn-note--error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* ---- כפתורים ---- */
+.fn-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.fn-dialog .fn-ok {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid var(--warm);
+  border-radius: 12px;
+  background: var(--warm);
+  box-shadow: 0 6px 14px -8px rgba(152, 97, 46, 0.7);
+  color: #fff;
+  font-weight: 700;
+}
+
+.fn-dialog .fn-ok:hover:not(:disabled) {
+  background: var(--warm-dark);
+  border-color: var(--warm-dark);
+  box-shadow: 0 8px 16px -8px rgba(152, 97, 46, 0.8);
+}
+
+.fn-dialog .fn-cancel {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink-soft);
+}
+
+.fn-dialog .fn-cancel:hover:not(:disabled) {
+  background: rgba(233, 220, 203, 0.6);
+  border: none;
+  box-shadow: none;
+}
+
+/* ---- מצב סגירה: "שמירה וסגירה" בשורה שלמה, ומתחתיו שני כפתורים שקטים ---- */
+.fn-buttons--close {
+  flex-wrap: wrap;
+}
+
+.fn-buttons--close .fn-ok {
+  flex: 1 1 100%;
+}
+
+.fn-buttons--close .fn-dont,
+.fn-buttons--close .fn-cancel {
+  flex: 1;
+}
+
+.fn-dialog .fn-dont {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--danger);
+}
+
+.fn-dialog .fn-dont:hover:not(:disabled) {
+  background: var(--danger-soft);
+  border: none;
+  box-shadow: none;
+}
+
+/* ---- תזכורת מקשים ---- */
+.fn-keys {
+  margin: 14px 0 0;
+  color: #b6a085;
+  font-size: 0.75rem;
+  text-align: center;
+}

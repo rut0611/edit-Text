@@ -1,6 +1,6 @@
-/* ---- השטח הראשי: קרם בהיר (אותו צבע כמו הגליון) ---- */
+/* ---- הלוח: שולחן בגוון חם, והגליון מונח עליו כמו דף ---- */
 .text-areas-board {
-  --paper: #f7efe1;
+  --paper: #f1e6d2;
 
   display: flex;
   flex-direction: column;
@@ -9,10 +9,13 @@
   min-width: 0;
   min-height: 0;
 
-  background: var(--paper);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: var(--paper);
+  background-image: var(--grain);
+  border: 1px solid #e6d5ba;
   border-radius: 20px;
-  box-shadow: var(--shadow);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 14px 30px -16px rgba(86, 54, 26, 0.4);
 }
 
 /* ---- שורת הלשוניות (LTR כמו בתמונה) ---- */
@@ -33,7 +36,7 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: 0 1 180px;      /* מצטמצמת אוטומטית כשיש הרבה לשוניות */
+  flex: 0 1 180px; /* מצטמצמת אוטומטית כשיש הרבה לשוניות */
   min-width: 44px;
   height: 38px;
   padding: 0 8px 0 14px;
@@ -42,14 +45,15 @@
   border-radius: 12px 12px 0 0;
   color: #9a8266;
 
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  animation: tab-in 0.22s ease both;
 }
 
 .sheet-tab:hover {
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.35);
 }
 
-/* הקו הכתום העדין מתחת ללשונית הפעילה */
+/* הקו הכתום העדין מתחת ללשונית הפעילה: נמתח מהאמצע */
 .sheet-tab::after {
   content: "";
   position: absolute;
@@ -60,17 +64,30 @@
   border-radius: 2px;
   background: #c9904f;
   transform: scaleX(0);
-  transition: transform 0.25s ease;
+  transition: transform 0.28s ease;
 }
 
+/* הלשונית הפעילה באותו צבע של הדף שמתחתיה */
 .sheet-tab--active,
 .sheet-tab--active:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: #fbf5ea;
   color: #4a3724;
+  box-shadow: 0 -2px 8px -4px rgba(103, 71, 39, 0.22);
 }
 
 .sheet-tab--active::after {
   transform: scaleX(1);
+}
+
+@keyframes tab-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---- איפוס עיצוב הכפתורים הגלובלי בתוך הלשונית ---- */
@@ -97,6 +114,26 @@
   user-select: none;
 }
 
+/* ---- נקודת "לא נשמר" ---- */
+.sheet-tab__dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  margin-inline: 2px 4px;
+  border-radius: 50%;
+  background: #c9904f;
+  animation: dot-pop 0.26s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+@keyframes dot-pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 /* ---- שדה שינוי שם ---- */
 .sheet-tab .sheet-tab__input {
   flex: 1;
@@ -116,16 +153,15 @@
   box-shadow: inset 0 0 0 1px #c9904f, 0 0 0 3px rgba(201, 144, 79, 0.18);
 }
 
-/* ---- האיקס ---- */
+/* ---- כפתור הסגירה ---- */
 .sheet-tab .sheet-tab__close {
   flex: none;
   display: grid;
   place-items: center;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   padding: 0;
   border-radius: 50%;
-  font-size: 11px;
   color: #b6a085;
   transition: background 0.2s ease, color 0.2s ease;
 }
@@ -148,7 +184,7 @@
   background: transparent;
   box-shadow: none;
   transform: none;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.3s ease;
 }
 
 .tabs-bar .tabs-bar__add::before,
@@ -177,6 +213,7 @@
   background: rgba(201, 144, 79, 0.14);
   border: none;
   box-shadow: none;
+  transform: rotate(90deg);
 }
 
 .tabs-bar .tabs-bar__add:hover::before,
@@ -214,7 +251,7 @@
   left: 50%;
   top: 50%;
   border-radius: 2px;
-  background: #dccbb0;
+  background: #d6c3a5;
   transform: translate(-50%, -50%);
   transition: background 0.25s ease;
 }

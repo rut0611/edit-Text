@@ -1,5 +1,7 @@
 import "./TextAreasBoard.css";
 import TextArea from "./TextArea";
+import Icon from "../common/Icon";
+import { isSheetDirty } from "../../utils/sheetUtils";
 
 function TextAreasBoard({
   texts,
@@ -65,12 +67,20 @@ function TextAreasBoard({
                 </button>
               )}
 
+              {/* נקודה = יש שינויים שלא נשמרו */}
+              {isSheetDirty(t) && (
+                <span
+                  className="sheet-tab__dot"
+                  title="יש שינויים שלא נשמרו"
+                />
+              )}
+
               <button
                 className="sheet-tab__close"
                 aria-label={"סגור " + name}
                 onClick={() => onClose(t.id)}
               >
-                ✕
+                <Icon name="close" size={12} strokeWidth={2} />
               </button>
             </div>
           );

@@ -1,5 +1,6 @@
 /* ---- שורת תפריט: משמשת את כל הפאנל הצדדי ---- */
 .side-panel .menu-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -17,6 +18,7 @@
 .side-panel .menu-item svg {
   flex-shrink: 0;
   color: var(--ink-soft);
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .side-panel .menu-item:hover:not(:disabled) {
@@ -25,9 +27,26 @@
   box-shadow: none;
 }
 
+.side-panel .menu-item:hover:not(:disabled) svg {
+  color: var(--ink);
+  transform: translateX(-2px);
+}
+
+/* הקובץ הפתוח: רקע בז' כהה יותר וסימן דק בצד */
 .side-panel .menu-item--active {
   background: #eadfcf;
   font-weight: 700;
+}
+
+.side-panel .menu-item--active::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 3px;
+  background: #c9904f;
 }
 
 .side-panel .menu-item--active svg {
@@ -64,6 +83,7 @@
   padding: 10px 12px;
   border-radius: 14px;
   background: #efe3d1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .file-menu__name {
@@ -81,41 +101,21 @@
   gap: 2px;
 }
 
-/* שדה שמירה בשם */
-.file-menu__saveas {
-  display: flex;
-  gap: 6px;
-  padding: 4px 2px 6px;
-}
-
-.file-menu__saveas input {
-  flex: 1;
-  min-width: 0;
-  padding: 7px 10px;
-  border-radius: 10px;
-}
-
-.file-menu__confirm {
-  padding: 7px 12px;
-  border-radius: 10px;
-  background: var(--warm);
-  border-color: var(--warm);
-  color: #fff;
-}
-
-.file-menu__confirm:hover:not(:disabled) {
-  background: var(--warm-dark);
-  border-color: var(--warm-dark);
-}
-
 /* הודעה: שומרת מקום קבוע כדי שהפאנל לא יקפוץ */
 .file-menu__message {
-  min-height: 1.3em;
+  min-height: 1.4em;
   margin: 0;
   padding-inline: 4px;
   color: var(--warm-dark);
   font-size: 0.82rem;
   font-weight: 600;
+}
+
+.file-menu__msg {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  animation: reveal 0.25s ease both;
 }
 
 .file-menu__divider {
@@ -135,6 +135,10 @@
   overflow-y: auto;
 }
 
+.file-list__row {
+  animation: reveal 0.25s ease both;
+}
+
 .file-list::-webkit-scrollbar {
   width: 5px;
 }
@@ -148,4 +152,15 @@
   padding: 10px 12px;
   color: var(--ink-soft);
   font-size: 0.85rem;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -4,7 +4,7 @@ import "./App.css";
 import TextAreasBoard from "./components/board/TextAreasBoard";
 import ControlPanel from "./components/controlPanel/ControlPanel";
 import FileMenu from "./components/controlPanel/fileMenu/FileMenu";
-import SaveOnCloseDialog from "./components/dialogs/SaveOnCloseDialog";
+import FileNameDialog from "./components/dialogs/FileNameDialog";
 import UserBar from "./components/user/UserBar";
 import useSheets from "./hooks/useSheets";
 import useFiles from "./hooks/useFiles";

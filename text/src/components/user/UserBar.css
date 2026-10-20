@@ -1,33 +1,20 @@
-.user-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-}
-
-.user-bar__who {
-  display: flex;
+.side-panel .logout-link {
+  align-self: flex-start;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 4px 12px 6px;
+  gap: 6px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  box-shadow: none;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
 }
 
-.user-bar__avatar {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--warm);
-  color: #fff;
-  font-weight: 700;
-}
-
-.user-bar__name {
-  overflow: hidden;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.side-panel .logout-link:hover:not(:disabled) {
+  background: rgba(233, 220, 203, 0.55);
+  border: none;
+  box-shadow: none;
+  color: var(--danger);
 }

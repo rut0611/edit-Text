@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import "./TextArea.css";
 import Char from "./Char";
+import Icon from "../common/Icon";
 
 function TextArea({ chars, style }) {
   const areaRef = useRef(null);
@@ -45,7 +46,10 @@ function TextArea({ chars, style }) {
       />
 
       {chars.length === 0 && (
-        <span className="text-area__placeholder">אין עדיין טקסט</span>
+        <div className="text-area__placeholder">
+          <Icon name="pencil" size={30} strokeWidth={1.3} draw />
+          <span>אפשר להתחיל להקליד במקלדת</span>
+        </div>
       )}
     </div>
   );

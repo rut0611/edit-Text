@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import "./FileMenu.css";
 import Icon from "../../common/Icon";
+import FileNameDialog from "../../dialogs/FileNameDialog";
 
 /*
   FileMenu - הקבצים של המשתמש: שמירה, שמירה בשם, ורשימת הקבצים לפתיחה.
@@ -15,63 +16,39 @@ function FileMenu({
   onOpen,
   children,
 }) {
-  const [saveAsOpen, setSaveAsOpen] = useState(false);
-  const [fileName, setFileName] = useState("");
-  const [message, setMessage] = useState("");
+  const [dialog, setDialog] = useState(null); // null, "save" או "saveAs"
+  const [message, setMessage] = useState(null); // { text, ok, id } או null
   const timerRef = useRef(null);
 
   // הודעה קצרה שנעלמת לבד אחרי כמה שניות
-  function showMessage(text) {
-    setMessage(text);
+  function showMessage(text, ok = false) {
+    setMessage({ text: text, ok: ok, id: Date.now() });
     clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setMessage(""), 3000);
+    timerRef.current = setTimeout(() => setMessage(null), 3000);
   }
 
-  function handleSave() {
-    // אין עדיין שם לקובץ - צריך לבחור שם
+  // "שמירה": יש שם - שומרים. אין שם - פותחים חלונית לבחירת שם.
+  function handleSaveClick() {
     if (!currentFileName) {
-      setSaveAsOpen(true);
-      showMessage("בחרי שם לקובץ ולחצי Enter");
+      setDialog("save");
       return;
     }
     const ok = onSave();
-    showMessage(ok ? "נשמר" : "השמירה נכשלה");
+    showMessage(ok ? "נשמר" : "השמירה נכשלה", ok);
   }
 
-  function handleSaveAs() {
-    const name = fileName.trim();
+  function handleSaveAsClick() {
+    setDialog("saveAs");
+  }
 
-    if (name === "") {
-      showMessage("יש להקליד שם קובץ");
-      return;
-    }
-
-    if (fileNames.includes(name) && name !== currentFileName) {
-      const confirmed = window.confirm(
-        'הקובץ "' + name + '" כבר קיים. להחליף אותו?'
-      );
-      if (!confirmed) {
-        return;
-      }
-    }
-
+  // נקראת מהחלונית. מחזירה true אם השמירה הצליחה.
+  function handleDialogSubmit(name) {
     const ok = onSaveAs(name);
     if (ok) {
-      showMessage('נשמר בשם "' + name + '"');
-      setFileName("");
-      setSaveAsOpen(false);
-    } else {
-      showMessage("השמירה נכשלה");
+      setDialog(null);
+      showMessage('נשמר בשם "' + name + '"', true);
     }
-  }
-
-  function handleSaveAsKeyDown(e) {
-    if (e.key === "Enter") {
-      handleSaveAs();
-    } else if (e.key === "Escape") {
-      setSaveAsOpen(false);
-      setFileName("");
-    }
+    return ok;
   }
 
   return (
@@ -84,39 +61,26 @@ function FileMenu({
       </div>
 
       <div className="file-menu__actions">
-        <button className="menu-item" onClick={handleSave}>
+        <button className="menu-item" onClick={handleSaveClick}>
           <Icon name="save" />
           <span>שמירה</span>
         </button>
 
-        <button
-          className="menu-item"
-          onClick={() => setSaveAsOpen(!saveAsOpen)}
-        >
+        <button className="menu-item" onClick={handleSaveAsClick}>
           <Icon name="saveAs" />
           <span>שמירה בשם...</span>
         </button>
-
-        {saveAsOpen && (
-          <div className="file-menu__saveas">
-            <input
-              autoFocus
-              placeholder="שם הקובץ"
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              onKeyDown={handleSaveAsKeyDown}
-            />
-            <button className="file-menu__confirm" onClick={handleSaveAs}>
-              שמור
-            </button>
-          </div>
-        )}
 
         {children}
       </div>
 
       <p className="file-menu__message" role="status">
-        {message}
+        {message && (
+          <span key={message.id} className="file-menu__msg">
+            {message.ok && <Icon name="check" size={15} strokeWidth={2} draw />}
+            {message.text}
+          </span>
+        )}
       </p>
 
       <div className="file-menu__divider" />
@@ -134,7 +98,7 @@ function FileMenu({
             itemClass = "menu-item menu-item--active";
           }
           return (
-            <li key={name}>
+            <li key={name} className="file-list__row">
               <button
                 className={itemClass}
                 title={name}
@@ -147,6 +111,18 @@ function FileMenu({
           );
         })}
       </ul>
+
+      {dialog && (
+        <FileNameDialog
+          key={dialog}
+          mode={dialog}
+          initialName={dialog === "saveAs" ? currentFileName || "" : ""}
+          currentFileName={currentFileName}
+          fileNames={fileNames}
+          onSubmit={handleDialogSubmit}
+          onCancel={() => setDialog(null)}
+        />
+      )}
     </div>
   );
 }

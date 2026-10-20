@@ -1,2 +1,11 @@
+/* אזור הכלים: עיצוב הטקסט + כלי עריכה, אחד מתחת לשני.
+   המיקום בגריד (grid-area) מוגדר ב-App.css. */
+.tools-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-
+.tools-area > * {
+  flex-shrink: 0;
+}

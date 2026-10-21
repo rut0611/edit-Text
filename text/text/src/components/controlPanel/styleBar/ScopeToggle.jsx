@@ -1,20 +1,24 @@
 import "./ScopeToggle.css";
 
+const scopes = [
+  { value: "fromNowOn", label: "מכאן והלאה" },
+  { value: "all", label: "על כל הטקסט" },
+];
+
 function ScopeToggle({ scope, onChange }) {
   return (
     <div className="scope-toggle">
-      <button
-        className={scope === "fromNowOn" ? "scope-toggle__btn--active" : ""}
-        onClick={() => onChange("fromNowOn")}
-      >
-        מכאן והלאה
-      </button>
-      <button
-        className={scope === "all" ? "scope-toggle__btn--active" : ""}
-        onClick={() => onChange("all")}
-      >
-        על כל הטקסט
-      </button>
+      {scopes.map(({ value, label }) => (
+        <button
+          key={value}
+          type="button"
+          className={scope === value ? "scope-toggle__btn--active" : ""}
+          aria-pressed={scope === value}
+          onClick={() => onChange(value)}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }

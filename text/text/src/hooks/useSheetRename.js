@@ -1,21 +1,11 @@
 import { useState, useRef } from "react";
 import { getSheetName } from "../utils/sheetUtils";
 
-/*
-  useSheetRename - שינוי שם של לשונית (לחיצה כפולה על הלשונית).
-
-  מדוע hook נפרד: זו לוגיקה עצמאית עם state משלה, ורק היא יודעת
-  שבזמן שינוי שם המקלדת שעל המסך מקלידה לתוך השם ולא לתוך הגליון.
-
-  renaming = { id, value, fresh } או null.
-  fresh = true כל עוד לא נגעו בשם: האות הראשונה מחליפה את כל השם.
-  ה-ref תמיד מחזיק את הערך העדכני, כדי שלחיצות מהירות לא יתבלבלו.
-*/
 function useSheetRename({
   sheets,
   fileNames,
-  renameFile, // משנה שם של קובץ שמור (מ-useFiles)
-  renameSheet, // משנה שם ללשונית (מ-useSheets)
+  renameFile, 
+  renameSheet, 
   typeLetter,
   deleteText,
 }) {

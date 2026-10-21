@@ -19,29 +19,37 @@
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
-}.undo-button {
-  width: 100%;
-  padding: 6px 16px;
-  font-size: 0.85rem;
+}
+
+/* כפתור משותף: חפש / החלף / בטל */
+.edit-tools__btn {
+  padding: 5px 11px;
 
   background: #f4e3cc;
   border: 1px solid #e8cfad;
   border-radius: 10px;
 
   color: #745034;
+  font-size: 0.85rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.undo-button:hover:not(:disabled) {
+.edit-tools__btn:hover:not(:disabled) {
   background: #ead2b2;
   border-color: #d8b78d;
   box-shadow: 0 3px 8px rgba(105, 72, 41, 0.08);
 }
 
-.undo-button:disabled {
+.edit-tools__btn:disabled {
   background: #f7f0e7;
   border-color: #eadfce;
   color: #b9a995;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.edit-tools__btn--wide {
+  width: 100%;
+  padding-inline: 16px;
 }

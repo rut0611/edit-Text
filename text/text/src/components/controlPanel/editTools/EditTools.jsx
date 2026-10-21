@@ -1,8 +1,6 @@
 import "./EditTools.css";
 import SearchReplace from "./SearchReplace";
-import UndoButton from "./UndoButton";
 
-// כלי עריכה מתקדמים: חיפוש/החלפה וביטול פעולה אחרונה (undo)
 function EditTools({ canUndo, onUndo, searchCount, onSearch, onReplace }) {
   return (
     <div className="edit-tools">
@@ -11,10 +9,14 @@ function EditTools({ canUndo, onUndo, searchCount, onSearch, onReplace }) {
         onSearch={onSearch}
         onReplace={onReplace}
       />
-      <UndoButton
-        canUndo={canUndo}
-        onUndo={onUndo}
-      />
+      <button
+        type="button"
+        className="edit-tools__btn edit-tools__btn--wide"
+        disabled={!canUndo}
+        onClick={onUndo}
+      >
+        בטל
+      </button>
     </div>
   );
 }

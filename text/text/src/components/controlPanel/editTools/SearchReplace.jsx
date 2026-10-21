@@ -1,27 +1,14 @@
 import { useState } from "react";
 import "./SearchReplace.css";
 
+function getResultText(count) {
+  if (count === null) return "";
+  return count === 0 ? "לא נמצא" : `נמצאו ${count}`;
+}
+
 function SearchReplace({ searchCount, onSearch, onReplace }) {
   const [query, setQuery] = useState("");
   const [replacement, setReplacement] = useState("");
-
-  function handleSearch() {
-    onSearch(query);
-  }
-
-  function handleReplace() {
-    if (query === "") {
-      return;
-    }
-    onReplace(query, replacement);
-  }
-
-  let resultText = "";
-  if (searchCount === 0) {
-    resultText = "לא נמצא";
-  } else if (searchCount !== null) {
-    resultText = "נמצאו " + searchCount;
-  }
 
   return (
     <div className="search-replace">
@@ -30,6 +17,7 @@ function SearchReplace({ searchCount, onSearch, onReplace }) {
         placeholder="חפש"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && onSearch(query)}
       />
       <input
         className="search-replace__input"
@@ -37,9 +25,24 @@ function SearchReplace({ searchCount, onSearch, onReplace }) {
         value={replacement}
         onChange={(e) => setReplacement(e.target.value)}
       />
-      <button onClick={handleSearch}>חפש</button>
-      <button onClick={handleReplace}>החלף</button>
-      <span className="search-replace__result">{resultText}</span>
+
+      <button
+        type="button"
+        className="edit-tools__btn"
+        onClick={() => onSearch(query)}
+      >
+        חפש
+      </button>
+      <button
+        type="button"
+        className="edit-tools__btn"
+        disabled={!query}
+        onClick={() => onReplace(query, replacement)}
+      >
+        החלף
+      </button>
+
+      <span className="search-replace__result">{getResultText(searchCount)}</span>
     </div>
   );
 }

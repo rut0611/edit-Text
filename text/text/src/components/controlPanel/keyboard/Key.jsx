@@ -1,19 +1,23 @@
-
 import "./Key.css";
 
-function Key({ char, onPress }) {
-  const isSpace = char === " ";
+
+function Key({ value, label, ariaLabel, onPress, special = false, className = "" }) {
+  const isSpace = value === " ";
+  const base = special ? "keyboard-special-key" : "key";
+
 
   return (
     <button
       type="button"
-      className={`key${isSpace ? " key--space" : ""}`}
-      onClick={() => onPress(char)}
-      aria-label={isSpace ? "רווח" : char}
+      className={${base} ${isSpace} ? " key--space" : "" ${className}.trim()}
+}
+onClick = {() => onPress(value)}
+aria - label={ ariaLabel ?? (isSpace ? "רווח" : value) }
     >
-      {isSpace ? "" : char}
-    </button>
+  { label ?? (isSpace ? "" : value)}
+    </button >
   );
 }
+
 
 export default Key;

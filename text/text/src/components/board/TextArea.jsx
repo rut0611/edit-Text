@@ -1,7 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import "./TextArea.css";
-import Char from "./Char";
 import Icon from "../common/Icon";
+
+// אות אחת. memo: אות שלא השתנתה לא מצטיירת מחדש בכל הקלדה
+const Char = memo(function Char({ letter, color, size, font }) {
+  return (
+    <span
+      className="char"
+      style={{ color: color, fontSize: size, fontFamily: font }}
+    >
+      {letter}
+    </span>
+  );
+});
 
 function TextArea({ chars, style }) {
   const areaRef = useRef(null);

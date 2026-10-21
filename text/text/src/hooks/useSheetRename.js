@@ -4,8 +4,8 @@ import { getSheetName } from "../utils/sheetUtils";
 function useSheetRename({
   sheets,
   fileNames,
-  renameFile, 
-  renameSheet, 
+  renameFile,
+  renameSheet,
   typeLetter,
   deleteText,
 }) {
@@ -79,12 +79,9 @@ function useSheetRename({
     setRenaming({ ...current, value: value, fresh: false });
   }
 
-  // לחיצה על מקשי המקלדת / כפתורי המחיקה לא "גונבת" את הפוקוס משדה השם
+  // לחיצה על מקשי המקלדת (כולל כפתורי המחיקה) לא "גונבת" את הפוקוס משדה השם
   function handleAppMouseDown(e) {
-    if (
-      renamingRef.current &&
-      e.target.closest(".keyboard button, .delete-buttons button")
-    ) {
+    if (renamingRef.current && e.target.closest(".keyboard button")) {
       e.preventDefault();
     }
   }

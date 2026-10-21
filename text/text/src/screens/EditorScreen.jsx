@@ -2,23 +2,19 @@ import "./EditorScreen.css";
 import TextAreasBoard from "../components/board/TextAreasBoard";
 import ControlPanel from "../components/controlPanel/ControlPanel";
 import FileMenu from "../components/sidePanel/FileMenu";
-import ExportButton from "../components/sidePanel/ExportButton";
 import UserBar from "../components/sidePanel/UserBar";
 import FileNameDialog from "../components/dialogs/FileNameDialog";
 import useSheets from "../hooks/useSheets";
 import useFiles from "../hooks/useFiles";
-import useFileActions from "../hooks/useFileActions";
 import useSheetRename from "../hooks/useSheetRename";
 import { defaultStyle } from "../data/styleOptions";
 import { getSheetName, isSheetDirty } from "../utils/sheetUtils";
-
-
 
 function EditorScreen({ userName, onLogout }) {
   const sheetsApi = useSheets();
   const { sheets, focusedSheet, focusedId, scope } = sheetsApi;
 
-  const files = useFiles(userName);
+  const files = useFiles(userName, sheetsApi);
 
   const rename = useSheetRename({
     sheets: sheets,
@@ -29,19 +25,9 @@ function EditorScreen({ userName, onLogout }) {
     deleteText: sheetsApi.deleteText,
   });
 
-  const fileActions = useFileActions({
-    sheets: sheets,
-    focusedSheet: focusedSheet,
-    files: files,
-    markSheetSaved: sheetsApi.markSheetSaved,
-    openSheetFromFile: sheetsApi.openSheetFromFile,
-    focusSheet: sheetsApi.focusSheet,
-    closeSheet: sheetsApi.closeSheet,
-  });
-
   const currentStyle = focusedSheet ? focusedSheet.style : defaultStyle;
   const currentFileName = focusedSheet ? getSheetName(focusedSheet) : null;
-  const { closingSheet } = fileActions;
+  const { closingSheet } = files;
 
   function handleLogout() {
     const hasUnsaved = sheets.some(isSheetDirty);
@@ -60,15 +46,11 @@ function EditorScreen({ userName, onLogout }) {
         <FileMenu
           fileNames={files.fileNames}
           currentFileName={currentFileName}
-          onSave={fileActions.handleSave}
-          onSaveAs={fileActions.handleSaveAs}
-          onOpen={fileActions.handleOpen}
-        >
-          <ExportButton
-            chars={focusedSheet ? focusedSheet.chars : []}
-            fileName={currentFileName}
-          />
-        </FileMenu>
+          chars={focusedSheet ? focusedSheet.chars : []}
+          onSave={files.handleSave}
+          onSaveAs={files.handleSaveAs}
+          onOpen={files.handleOpen}
+        />
 
         <UserBar userName={userName} onLogout={handleLogout} />
       </aside>
@@ -78,7 +60,7 @@ function EditorScreen({ userName, onLogout }) {
         focusedId={focusedId}
         renaming={rename.renaming}
         onFocus={sheetsApi.focusSheet}
-        onClose={fileActions.handleClose}
+        onClose={files.handleClose}
         onNew={sheetsApi.addNewSheet}
         onRenameStart={rename.startRename}
         onRenameChange={rename.changeRenameValue}
@@ -109,9 +91,9 @@ function EditorScreen({ userName, onLogout }) {
           initialName=""
           currentFileName={getSheetName(closingSheet)}
           fileNames={files.fileNames}
-          onSubmit={fileActions.handleSaveAndClose}
-          onDontSave={fileActions.handleCloseWithoutSaving}
-          onCancel={fileActions.handleCancelClose}
+          onSubmit={files.handleSaveAndClose}
+          onDontSave={files.handleCloseWithoutSaving}
+          onCancel={files.handleCancelClose}
         />
       )}
     </div>

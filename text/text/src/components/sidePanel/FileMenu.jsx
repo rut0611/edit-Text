@@ -1,28 +1,46 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./FileMenu.css";
 import Icon from "../common/Icon";
 import FileNameDialog from "../dialogs/FileNameDialog";
+import { exportTextFile } from "../../utils/exportUtils";
+
+// כפתור בתפריט: אייקון + טקסט (משמש רק כאן)
+function MenuItem({ icon, active = false, children, ...props }) {
+  return (
+    <button
+      type="button"
+      className={`menu-item${active ? " menu-item--active" : ""}`}
+      {...props}
+    >
+      <Icon name={icon} />
+      <span className="menu-item__text">{children}</span>
+    </button>
+  );
+}
 
 /*
-  FileMenu - הקבצים של המשתמש: שמירה, שמירה בשם, ורשימת הקבצים לפתיחה.
-  ה-children (כפתור הייצוא) מוצג יחד עם שאר הפעולות.
-*/
+  FileMenu - הקבצים של המשתמש: שמירה, שמירה בשם, ייצוא לקובץ טקסט,
+  ורשימת הקבצים לפתיחה.
 
+  chars - מערך התווים של הגליון הממוקד (לייצוא)
+*/
 function FileMenu({
   fileNames,
   currentFileName,
+  chars,
   onSave,
   onSaveAs,
   onOpen,
-  children,
 }) {
   const [dialog, setDialog] = useState(null); // null, "save" או "saveAs"
   const [message, setMessage] = useState(null); // { text, ok, id } או null
   const timerRef = useRef(null);
 
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
   // הודעה קצרה שנעלמת לבד אחרי כמה שניות
   function showMessage(text, ok = false) {
-    setMessage({ text: text, ok: ok, id: Date.now() });
+    setMessage({ text, ok, id: Date.now() });
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => setMessage(null), 3000);
   }
@@ -37,18 +55,23 @@ function FileMenu({
     showMessage(ok ? "נשמר" : "השמירה נכשלה", ok);
   }
 
-  function handleSaveAsClick() {
-    setDialog("saveAs");
-  }
-
   // נקראת מהחלונית. מחזירה true אם השמירה הצליחה.
   function handleDialogSubmit(name) {
     const ok = onSaveAs(name);
     if (ok) {
       setDialog(null);
-      showMessage('נשמר בשם "' + name + '"', true);
+      showMessage(`נשמר בשם "${name}"`, true);
     }
     return ok;
+  }
+
+  // ייצוא לקובץ טקסט במחשב (נפתח חלון לבחירת שם ותיקייה)
+  async function handleExport() {
+    try {
+      await exportTextFile(chars, currentFileName);
+    } catch {
+      window.alert("הייצוא נכשל");
+    }
   }
 
   return (
@@ -61,17 +84,20 @@ function FileMenu({
       </div>
 
       <div className="file-menu__actions">
-        <button className="menu-item" onClick={handleSaveClick}>
-          <Icon name="save" />
-          <span>שמירה</span>
-        </button>
-
-        <button className="menu-item" onClick={handleSaveAsClick}>
-          <Icon name="saveAs" />
-          <span>שמירה בשם...</span>
-        </button>
-
-        {children}
+        <MenuItem icon="save" onClick={handleSaveClick}>
+          שמירה
+        </MenuItem>
+        <MenuItem icon="saveAs" onClick={() => setDialog("saveAs")}>
+          שמירה בשם...
+        </MenuItem>
+        <MenuItem
+          icon="download"
+          onClick={handleExport}
+          disabled={chars.length === 0}
+          title={chars.length === 0 ? "אין טקסט לייצוא" : ""}
+        >
+          ייצוא לקובץ טקסט
+        </MenuItem>
       </div>
 
       <p className="file-menu__message" role="status">
@@ -92,24 +118,18 @@ function FileMenu({
           <li className="file-list__empty">עדיין אין קבצים שמורים</li>
         )}
 
-        {fileNames.map((name) => {
-          let itemClass = "menu-item";
-          if (name === currentFileName) {
-            itemClass = "menu-item menu-item--active";
-          }
-          return (
-            <li key={name} className="file-list__row">
-              <button
-                className={itemClass}
-                title={name}
-                onClick={() => onOpen(name)}
-              >
-                <Icon name="file" />
-                <span className="menu-item__text">{name}</span>
-              </button>
-            </li>
-          );
-        })}
+        {fileNames.map((name) => (
+          <li key={name} className="file-list__row">
+            <MenuItem
+              icon="file"
+              active={name === currentFileName}
+              title={name}
+              onClick={() => onOpen(name)}
+            >
+              {name}
+            </MenuItem>
+          </li>
+        ))}
       </ul>
 
       {dialog && (

@@ -89,3 +89,21 @@
   font-size: 0.95rem;
   pointer-events: none;
 }
+
+/* ---- אות בודדת (Char) ---- */
+
+/* pre-wrap במקום pre - כדי שהטקסט יירד שורה במקום לחרוג מהאזור */
+.char {
+  white-space: pre-wrap;
+  animation: char-in 0.14s ease-out both;
+}
+
+/* כל אות שנכתבת "נכנסת" בדהייה קצרה */
+@keyframes char-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

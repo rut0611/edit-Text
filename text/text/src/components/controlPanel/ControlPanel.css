@@ -1,5 +1,5 @@
 /* אזור הכלים: עיצוב הטקסט + כלי עריכה, אחד מתחת לשני.
-   המיקום בגריד (grid-area) מוגדר ב-App.css. */
+   המיקום בגריד (grid-area) מוגדר ב-screens/EditorScreen.css. */
 .tools-area {
   display: flex;
   flex-direction: column;

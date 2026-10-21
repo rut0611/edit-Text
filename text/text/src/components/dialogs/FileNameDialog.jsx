@@ -84,7 +84,6 @@ function FileNameDialog({
     }
   }
 
-  // ---------- טקסטים לפי מצב ----------
   let title = "שמירת קובץ";
   let subtitle = "איך לקרוא לקובץ?";
   let iconName = "save";

@@ -1,10 +1,10 @@
 import "./TextAreasBoard.css";
 import TextArea from "./TextArea";
 import Icon from "../common/Icon";
-import { isSheetDirty } from "../../utils/sheetUtils";
+import { getSheetName, isSheetDirty } from "../../utils/sheetUtils";
 
 function TextAreasBoard({
-  texts,
+  sheets,
   focusedId,
   renaming,
   onFocus,
@@ -15,7 +15,7 @@ function TextAreasBoard({
   onRenameCommit,
   onRenameCancel,
 }) {
-  const focusedSheet = texts.find((t) => t.id === focusedId) || null;
+  const focusedSheet = sheets.find((t) => t.id === focusedId) || null;
 
   function handleRenameKeyDown(e) {
     if (e.key === "Enter") {
@@ -29,8 +29,8 @@ function TextAreasBoard({
     <div className="text-areas-board">
       {/* שורת הלשוניות */}
       <div className="tabs-bar">
-        {texts.map((t) => {
-          const name = t.fileName || t.draftName || "ללא שם";
+        {sheets.map((t) => {
+          const name = getSheetName(t) || "ללא שם";
           const isRenaming = renaming !== null && renaming.id === t.id;
 
           let tabClass = "sheet-tab";

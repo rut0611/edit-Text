@@ -7,9 +7,15 @@ export function createSheet(id, chars = [], fileName = null) {
     chars: chars,
     history: [],
     style: { ...defaultStyle },
-    fileName: fileName,
+    fileName: fileName, // שם הקובץ השמור (null = עוד לא נשמר)
+    draftName: null, // שם שהמשתמש נתן ללשונית לפני שנשמרה
     savedChars: chars,
   };
+}
+
+// השם להצגה: שם הקובץ, או שם הטיוטה, או null אם אין שם
+export function getSheetName(sheet) {
+  return sheet.fileName || sheet.draftName || null;
 }
 
 // האם יש בגיליון שינויים שלא נשמרו

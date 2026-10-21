@@ -122,3 +122,28 @@ body {
   height: 100vh !important;
   margin: 0 !important;
 }
+
+/* ---- פריסת העמוד (הועברה מ-EditorScreen.css; ללא כפילויות) ---- */
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}

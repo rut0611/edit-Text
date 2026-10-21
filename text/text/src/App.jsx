@@ -1,7 +1,6 @@
-// src/App.jsx
 import { useState } from "react";
-import LoginScreen from "./components/user/LoginScreen";
-import EditorScreen from "./EditorScreen";
+import LoginScreen from "./screens/LoginScreen";
+import EditorScreen from "./screens/EditorScreen";
 import {
   getCurrentUser,
   saveCurrentUser,
@@ -9,6 +8,7 @@ import {
 } from "./utils/storage";
 
 function App() {
+  
   const [userName, setUserName] = useState(() => getCurrentUser());
 
   function handleLogin(name) {

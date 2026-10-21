@@ -19,90 +19,70 @@ function Keyboard({ language, onKeyPress, onLanguageChange, onDelete }) {
             {row.map((char, index) => (
               <Key
                 key={`${language}-${rowIndex}-${index}-${char}`}
-                char={char}
+                value={char}
                 onPress={onKeyPress}
               />
             ))}
 
-            {/* מקש מחיקת תו בסוף השורה האחרונה, כמו במקלדת אמיתית */}
             {rowIndex === lastRowIndex && (
-              <button
-                type="button"
-                className="keyboard-special-key keyboard-backspace-key"
-                onClick={() => onDelete("char")}
-                aria-label="מחק תו"
-              >
-                ⌫
-              </button>
+              <Key
+                special
+                className="keyboard-backspace-key"
+                value="char"
+                label="⌫"
+                ariaLabel="מחק תו"
+                onPress={onDelete}
+              />
             )}
           </div>
         ))}
       </div>
 
       <div className="keyboard-bottom-row" dir="ltr">
-        {/* הגלובוס בשורה התחתונה, בצד שמאל */}
         <LanguageSwitcher
           language={language}
           languages={Object.keys(keyboardLayouts)}
           onChange={onLanguageChange}
         />
 
-        <button
-          type="button"
-          className="keyboard-special-key keyboard-number-key"
-          onClick={() =>
-            onLanguageChange(language === "symbols" ? "en" : "symbols")
-          }
-        >
-          {language === "symbols" ? "ABC" : "?123"}
-        </button>
+        <Key
+          special
+          className="keyboard-number-key"
+          value={language === "symbols" ? "en" : "symbols"}
+          label={language === "symbols" ? "ABC" : "?123"}
+          ariaLabel="החלף סוג מקלדת"
+          onPress={onLanguageChange}
+        />
 
-        <button
-          type="button"
-          className="keyboard-special-key"
-          onClick={() => onKeyPress(",")}
-          aria-label="פסיק"
-        >
-          ,
-        </button>
+        <Key special value="," ariaLabel="פסיק" onPress={onKeyPress} />
+        <Key value=" " onPress={onKeyPress} />
+        <Key special value="." ariaLabel="נקודה" onPress={onKeyPress} />
 
-        <Key char=" " onPress={onKeyPress} />
+        <Key
+          special
+          className="keyboard-delete-key"
+          value="word"
+          label="⌫ מילה"
+          ariaLabel="מחק מילה"
+          onPress={onDelete}
+        />
+        <Key
+          special
+          className="keyboard-delete-key"
+          value="all"
+          label="⌫ הכול"
+          ariaLabel="מחק הכול"
+          onPress={onDelete}
+        />
 
-        <button
-          type="button"
-          className="keyboard-special-key"
-          onClick={() => onKeyPress(".")}
-          aria-label="נקודה"
-        >
-          .
-        </button>
-
-        <button
-          type="button"
-          className="keyboard-special-key keyboard-delete-key"
-          onClick={() => onDelete("word")}
-          aria-label="מחק מילה"
-        >
-          ⌫ מילה
-        </button>
-
-        <button
-          type="button"
-          className="keyboard-special-key keyboard-delete-key"
-          onClick={() => onDelete("all")}
-          aria-label="מחק הכול"
-        >
-          ⌫ הכול
-        </button>
-
-        <button
-          type="button"
-          className="keyboard-special-key keyboard-enter-key"
-          onClick={() => onKeyPress("\n")}
-          aria-label="שורה חדשה"
-        >
-          ↵
-        </button>
+        <Key
+          special
+          className="keyboard-enter-key"
+          value={"\n"}
+          label="↵"
+          ariaLabel="שורה חדשה"
+          onPress={onKeyPress}
+        />
       </div>
     </div>
   );

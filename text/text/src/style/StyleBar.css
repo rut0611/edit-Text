@@ -1,0 +1,39 @@
+.user-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.user-bar__who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px;
+}
+
+.user-bar__avatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #c9904f, #8a5a2b);
+  color: #fffaf2;
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow:
+    0 3px 8px rgba(60, 35, 15, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.user-bar__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--ink);
+}

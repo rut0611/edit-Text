@@ -1,4 +1,4 @@
-import "./Keyboard.css";
+import "../../../style/Keyboard.css";
 import Key from "./Key";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { keyboardLayouts } from "../../../data/keyboardLayouts";
@@ -39,6 +39,7 @@ function Keyboard({ language, onKeyPress, onLanguageChange, onDelete }) {
       </div>
 
       <div className="keyboard-bottom-row" dir="ltr">
+        
         <LanguageSwitcher
           language={language}
           languages={Object.keys(keyboardLayouts)}

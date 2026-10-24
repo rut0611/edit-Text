@@ -1,4 +1,4 @@
-import "./UserBar.css";
+import "../../style/UserBar.css";
 import Icon from "../common/Icon";
 
 function UserBar({ userName, onLogout }) {

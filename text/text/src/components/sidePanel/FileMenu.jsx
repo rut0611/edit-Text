@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import "./FileMenu.css";
+import { useState } from "react";
+import "../../style/FileMenu.css";
 import Icon from "../common/Icon";
 import FileNameDialog from "../dialogs/FileNameDialog";
 import { exportTextFile } from "../../utils/exportUtils";
@@ -18,31 +18,15 @@ function MenuItem({ icon, active = false, children, ...props }) {
   );
 }
 
-/*
-  FileMenu - הקבצים של המשתמש: שמירה, שמירה בשם, ייצוא לקובץ טקסט,
-  ורשימת הקבצים לפתיחה.
-
-  chars - מערך התווים של הגליון הממוקד (לייצוא)
-*/
-function FileMenu({
-  fileNames,
-  currentFileName,
-  chars,
-  onSave,
-  onSaveAs,
-  onOpen,
-}) {
+// FileMenu - שמירה, שמירה בשם, ורשימת הקבצים של המשתמש לפתיחה
+function FileMenu({ fileNames, currentFileName, chars, onSave, onSaveAs, onOpen }) {
   const [dialog, setDialog] = useState(null); // null, "save" או "saveAs"
   const [message, setMessage] = useState(null); // { text, ok, id } או null
-  const timerRef = useRef(null);
-
-  useEffect(() => () => clearTimeout(timerRef.current), []);
 
   // הודעה קצרה שנעלמת לבד אחרי כמה שניות
-  function showMessage(text, ok = false) {
+  function showMessage(text, ok) {
     setMessage({ text, ok, id: Date.now() });
-    clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setMessage(null), 3000);
+    setTimeout(() => setMessage(null), 3000);
   }
 
   // "שמירה": יש שם - שומרים. אין שם - פותחים חלונית לבחירת שם.
@@ -65,7 +49,7 @@ function FileMenu({
     return ok;
   }
 
-  // ייצוא לקובץ טקסט במחשב (נפתח חלון לבחירת שם ותיקייה)
+  // ייצוא לקובץ טקסט במחשב
   async function handleExport() {
     try {
       await exportTextFile(chars, currentFileName);
@@ -94,7 +78,6 @@ function FileMenu({
           icon="download"
           onClick={handleExport}
           disabled={chars.length === 0}
-          title={chars.length === 0 ? "אין טקסט לייצוא" : ""}
         >
           ייצוא לקובץ טקסט
         </MenuItem>

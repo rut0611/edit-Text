@@ -1,4 +1,4 @@
-import "./ScopeToggle.css";
+import "../../../style/ScopeToggle.css";
 
 const scopes = [
   { value: "fromNowOn", label: "מכאן והלאה" },

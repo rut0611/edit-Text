@@ -1,4 +1,4 @@
-import "./LoginScreen.css";
+import "../style/LoginScreen.css";
 
 import { useState } from "react";
 import { userExists, registerUser, checkUser } from "../utils/storage";

@@ -1,4 +1,4 @@
-import "./EditTools.css";
+import "../../../style/EditTools.css";
 import SearchReplace from "./SearchReplace";
 
 function EditTools({ canUndo, onUndo, searchCount, onSearch, onReplace }) {

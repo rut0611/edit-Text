@@ -1,0 +1,420 @@
+/* EditorScreen - פריסת מסך העריכה בלבד. העיצוב הגלובלי נמצא ב-index.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Caveat&family=Dancing+Script&family=Gveret+Levin&family=Playpen+Sans+Hebrew&display=swap");
+
+.app {
+  --shift: clamp(0px, 0.2vw, 3px);
+
+  --area-side: #f0dfc4;
+  --area-board: #f8eedd;
+  --area-keyboard: #f3e6d0;
+  --area-right: #f1e1c8;
+  --area-border: rgba(255, 255, 255, 0.55);
+  --area-radius: 12px;
+  --area-shadow: 0 8px 22px rgba(86, 54, 26, 0.16);
+  --gap: clamp(10px, 1vw, 16px);
+
+  width: 90vw;
+  height: 85vh;
+  max-width: 1350px;
+  max-height: 800px;
+  min-width: 0;
+  min-height: 0;
+
+  background: none;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+
+  display: grid;
+  direction: ltr;
+
+  grid-template-columns:
+    minmax(0, 0.75fr)
+    minmax(0, 2.4fr)
+    minmax(0, 0.95fr);
+
+  /* שורות 3+4 = המקלדת (מחולקת לשני חצאים) */
+  grid-template-rows:
+    minmax(0, 0.4fr)
+    minmax(0, 0.5fr)
+    minmax(0, 0.55fr)
+    minmax(0, 0.55fr);
+
+  grid-template-areas:
+    "side board tools"
+    "side board tools"
+    "side keyboard tools"
+    "side keyboard tools";
+
+  gap: var(--gap);
+}
+
+.app .control-panel {
+  display: contents;
+}
+
+/* ---- מיקום ---- */
+.app .side-panel { grid-area: side; }
+.app .text-areas-board { grid-area: board; }
+.app .keyboard { grid-area: keyboard; }
+
+/* עמודה ימנית: תמונה (נשאר) / עיצוב (לפי התוכן) / החלפה (עד חצי מקלדת) */
+.app .tools-area {
+  grid-area: tools;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto 27%;
+  gap: var(--gap);
+  min-width: 0;
+  min-height: 0;
+  direction: rtl;
+}
+
+/* ---- מסגרת וצל לכל אזור ---- */
+.app .side-panel,
+.app .text-areas-board,
+.app .keyboard,
+.app .image-area,
+.app .style-bar,
+.app .edit-tools {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  direction: rtl;
+
+  border: 1px solid var(--area-border);
+  border-radius: var(--area-radius);
+  box-shadow: var(--area-shadow);
+}
+
+.app .side-panel,
+.app .text-areas-board,
+.app .keyboard {
+  height: 100%;
+}
+
+/* ---- צבעים ---- */
+.app .side-panel {
+  background: var(--area-side);
+  padding: 12px;
+  height: 82%;
+  align-self: start;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app .text-areas-board {
+  background-color: var(--area-board);
+  overflow: hidden;
+}
+
+.app .keyboard {
+  background: var(--area-keyboard);
+  direction: ltr;
+  overflow: hidden;
+}
+
+/* תמונה: כרגע רקע זמני. כשתוסיף תמונה לתיקיית media,
+   החלף את השורה background במשורה שמתחתיה */
+.app .image-area {
+  height: 100%;
+  overflow: hidden;
+  /* background: linear-gradient(145deg, #e9d3b0, #d8b98e); */
+  /* background: url("../media/image.png") center / cover no-repeat; */
+}
+
+.app .style-bar,
+.app .edit-tools {
+  background: var(--area-right);
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d9bea0 transparent;
+}
+
+.app .edit-tools {
+  height: 100%;
+}
+
+/* ---- הזזות עדינות ---- */
+.app .text-areas-board { transform: translateX(calc(var(--shift) * -0.3)); }
+.app .keyboard { transform: translateX(calc(var(--shift) * 0.3)); }
+.app .tools-area { transform: translateX(calc(var(--shift) * -0.3)); }
+
+/* ---- אזור ייצוא ---- */
+.export-area {
+  margin-top: 10px;
+  display: flex;
+}
+
+.export-area button {
+  width: 100%;
+}
+
+/* ---- מסכים צרים ---- */
+@media (max-width: 900px) {
+  .app {
+    width: 96vw;
+    height: 94vh;
+    gap: 10px;
+    grid-template-columns:
+      minmax(0, 0.8fr)
+      minmax(0, 2fr);
+    grid-template-rows:
+      minmax(0, 1fr)
+      minmax(0, 0.6fr)
+      minmax(0, 0.6fr)
+      minmax(0, 1fr);
+    grid-template-areas:
+      "side board"
+      "keyboard board"
+      "keyboard board"
+      "tools tools";
+  }
+
+  .app .tools-area {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .app .text-areas-board,
+  .app .keyboard,
+  .app .tools-area {
+    transform: none;
+  }
+}
+
+/* ---- בלי מסגרות, עומק בצללים ---- */
+.app {
+  --area-shadow:
+    0 2px 4px rgba(60, 35, 15, 0.14),
+    0 10px 20px rgba(60, 35, 15, 0.18),
+    0 24px 44px rgba(60, 35, 15, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.app .side-panel,
+.app .text-areas-board,
+.app .keyboard,
+.app .image-area,
+.app .style-bar,
+.app .edit-tools {
+  border: none;
+  box-shadow: var(--area-shadow);
+}
+
+/* ---- פאנל צד: כהה יותר, עד סוף המקלדת ---- */
+.app .side-panel {
+  background: #d9bd96;
+  height: 100%;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+/* תמונה בתחתית אזור הקבצים, ממש מעל "התנתקות".
+   כשתוסיף תמונה: מחק את שורת ה-gradient ובטל את ההערה בשורה שמתחתיה */
+.file-menu::after {
+  content: "";
+  flex: 0 0 auto;
+  height: 30%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(60, 35, 15, 0.22);
+  background: linear-gradient(145deg, #e6cfab, #c9a878);
+  /* background: url("../media/side.jpg") center / cover no-repeat; */
+}
+
+/* ================= עדכון ================= */
+
+/* ---- צללים חזקים יותר, לכל חלק ---- */
+.app {
+  --area-shadow:
+    0 2px 5px rgba(60, 35, 15, 0.22),
+    0 10px 22px rgba(60, 35, 15, 0.26),
+    0 24px 46px rgba(60, 35, 15, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  --inner-shadow: 0 3px 8px rgba(60, 35, 15, 0.2);
+}
+
+.app .side-panel,
+.app .text-areas-board,
+.app .keyboard,
+.app .image-area,
+.app .style-bar,
+.app .edit-tools {
+  box-shadow: var(--area-shadow);
+}
+
+/* חלקים פנימיים */
+.app .text-area,
+.app .file-menu__current,
+.app .user-bar__avatar {
+  box-shadow: var(--inner-shadow);
+}
+
+/* ---- פריסה: המקלדת נמוכה יותר, הלוח ארוך יותר ---- */
+@media (min-width: 901px) {
+  .app {
+    grid-template-rows:
+      minmax(0, 0.4fr)
+      minmax(0, 0.5fr)
+      minmax(0, 0.2fr)
+      minmax(0, 0.9fr);
+    grid-template-areas:
+      "side board tools"
+      "side board tools"
+      "side board tools"
+      "side keyboard tools";
+  }
+
+  /* חלק ההחלפה: בערך עד חצי המקלדת */
+  .app .tools-area {
+    grid-template-rows: minmax(0, 1fr) auto 22%;
+  }
+
+  /* פאנל הצד יורד קצת מתחת לסוף המקלדת */
+  .app .side-panel {
+    height: calc(100% + 28px);
+    align-self: start;
+  }
+}
+
+/* ---- פאנל הצד: טקסט קטן יותר ---- */
+.app .side-panel .menu-item {
+  font-size: 0.78rem;
+  padding: 6px 10px;
+}
+
+.app .file-menu__label { font-size: 0.66rem; }
+.app .file-menu__name { font-size: 0.82rem; }
+.app .file-menu__message { font-size: 0.7rem; }
+.app .file-list__empty { font-size: 0.72rem; }
+
+/* ---- הסדר: תפריט / משתמש + התנתקות / תמונה למטה ---- */
+.file-menu::after {
+  display: none;
+}
+
+.app .file-menu {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* רשימת הקבצים: שורה אחת עם גלילה */
+.app .file-list {
+  flex: 0 0 auto;
+  max-height: 2.4rem;
+  overflow-y: auto;
+}
+
+/* התמונה בתחתית, תמיד מוצגת במלואה.
+   כשתוסיף תמונה: מחק את שורת ה-gradient ובטל את ההערה בשורה שמתחתיה */
+.app .side-panel::after {
+  content: "";
+  /* flex: 0 0 26%; */
+  /* border-radius: 10px; */
+  box-shadow: var(--inner-shadow);
+  background: linear-gradient(145deg, #e6cfab, #c9a878);
+  /* background: url("../media/side.jpg") center / cover no-repeat; */
+}
+
+.app .user-bar {
+  flex: 0 0 auto;
+}
+/* ================= עדכון 2 ================= */
+
+/* ---- החזרת גודל החלק הימני כמו שהיה ---- */
+@media (min-width: 901px) {
+  .app .tools-area {
+    grid-template-rows: minmax(0, 1fr) auto 27%;
+  }
+}
+
+/* ---- צל רחוק יותר מהריבוע, לא חזק ---- */
+.app {
+  --area-shadow:
+    0 6px 14px rgba(60, 35, 15, 0.14),
+    0 18px 38px rgba(60, 35, 15, 0.17),
+    0 36px 70px rgba(60, 35, 15, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* ---- פאנל הצד: טקסט גדול ב-10% ---- */
+.app .side-panel .menu-item { font-size: 0.86rem; }
+.app .file-menu__label { font-size: 0.73rem; }
+.app .file-menu__name { font-size: 0.9rem; }
+.app .file-menu__message { font-size: 0.77rem; }
+.app .file-list__empty { font-size: 0.79rem; }
+
+/* ---- שני קבצים נראים יחד ---- */
+.app .file-list {
+  max-height: 4.8rem;
+}
+
+/* ---- ההתנתקות עולה למעלה: התמונה ממלאת את כל מה שנשאר ---- */
+.app .file-menu {
+  flex: 0 1 auto;
+}
+
+/* ================= תמונות: כאן מגדירים את הנתיבים ================= */
+
+/* תמונה בצד ימין (מעל העיצוב) */
+.app .image-area {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  /* background: linear-gradient(145deg, #e9d3b0, #d8b98e); */
+  /* background: url("../media/image.jpg") center / cover no-repeat; */
+}
+
+/* תמונה בפאנל הצד (בתחתית) */
+.app .side-panel::after {
+  flex: 0%;
+  /* min-height: ; */
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  /* background: linear-gradient(145deg, #e6cfab, #c9a878); */
+  background: url("../media/file.png") center / cover no-repeat;
+}
+
+/* ================= עדכון 3 ================= */
+
+/* ---- צד ימין: שום דבר לא נחתך ---- */
+.app .style-bar,
+.app .edit-tools {
+  max-height: none;
+  overflow: visible;
+}
+
+.app .edit-tools {
+  height: auto;
+}
+
+@media (min-width: 901px) {
+  .app .tools-area {
+    /* תמונה: מה שנשאר | עיצוב: לפי התוכן | החלפה: לפחות 27%, וגדלה אם צריך */
+    grid-template-rows: minmax(0, 1fr) auto minmax(27%, auto);
+  }
+}
+
+/* ---- צל בולט: מקלדת, לוח, צד, עיצוב והחלפה ---- */
+.app .side-panel,
+.app .text-areas-board,
+.app .keyboard,
+.app .style-bar,
+.app .edit-tools {
+  box-shadow:
+    0 10px 10px rgba(40, 22, 8, 0.482),
+    0 10px 10px rgba(40, 22, 8, 0.371),
+    0 10px 10px rgba(40, 22, 8, 0.441),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}

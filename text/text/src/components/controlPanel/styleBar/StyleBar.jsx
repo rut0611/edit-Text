@@ -1,4 +1,4 @@
-import "./StyleBar.css";
+import "../../../style/StyleBar.css";
 import StylePicker from "./StylePicker";
 import ScopeToggle from "./ScopeToggle";
 import { colors, sizes, fonts } from "../../../data/styleOptions";

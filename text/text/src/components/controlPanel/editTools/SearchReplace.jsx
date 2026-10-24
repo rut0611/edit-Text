@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./SearchReplace.css";
+import "../../../style/SearchReplace.css";
 
 function getResultText(count) {
   if (count === null) return "";

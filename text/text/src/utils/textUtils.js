@@ -1,98 +1,57 @@
-
-export function addChar(chars, newChar) {
-  return [...chars, newChar];
-}
-
-export function deleteLastChar(chars) {
-  return chars.slice(0, chars.length - 1);
-}
-
 export function deleteLastWord(chars) {
   let end = chars.length;
 
   while (end > 0 && chars[end - 1].letter === " ") {
-    end = end - 1;
+    end--;
   }
-
   while (end > 0 && chars[end - 1].letter !== " ") {
-    end = end - 1;
+    end--;
   }
 
   return chars.slice(0, end);
 }
 
-export function deleteAll() {
-  return [];
-}
-
-export function charsToString(chars) {
-  return chars.map((c) => c.letter).join("");
-}
-
-export function applyStyleToAll(chars, key, value) {
-  return chars.map((c) => ({ ...c, [key]: value }));
-}
-
-// בודקת אם החל מהמיקום index מופיע הטקסט query.
-// מחזירה כמה איברי chars הוא תופס, או 0 אם אין התאמה.
-function matchLengthAt(chars, index, query) {
+function matchLength(chars, start, query) {
   let text = "";
-  let i = index;
+  let end = start;
 
-  while (i < chars.length && text.length < query.length) {
-    text = text + chars[i].letter;
-    i = i + 1;
+  while (end < chars.length && text.length < query.length) {
+    text += chars[end].letter;
+    end++;
   }
 
-  if (text === query) {
-    return i - index;
+  return text === query ? end - start : 0;
+}
+
+function findMatches(chars, query) {
+  const matches = [];
+
+  for (let i = 0; query !== "" && i < chars.length; i++) {
+    const length = matchLength(chars, i, query);
+    if (length > 0) {
+      matches.push({ start: i, length: length });
+      i += length - 1;
+    }
   }
-  return 0;
+
+  return matches;
 }
 
 export function countMatches(chars, query) {
-  if (query === "") {
-    return 0;
-  }
-
-  let count = 0;
-  let i = 0;
-
-  while (i < chars.length) {
-    const length = matchLengthAt(chars, i, query);
-    if (length > 0) {
-      count = count + 1;
-      i = i + length;
-    } else {
-      i = i + 1;
-    }
-  }
-
-  return count;
+  return findMatches(chars, query).length;
 }
 
 export function replaceMatches(chars, query, replacement) {
-  if (query === "") {
-    return chars;
-  }
-
   const result = [];
-  let i = 0;
+  let pos = 0;
 
-  while (i < chars.length) {
-    const length = matchLengthAt(chars, i, query);
-
-    if (length > 0) {
-      const styleSource = chars[i];
-      for (const letter of Array.from(replacement)) {
-        result.push({ ...styleSource, letter: letter });
-      }
-      i = i + length;
-    } else {
-      result.push(chars[i]);
-      i = i + 1;
+  for (const { start, length } of findMatches(chars, query)) {
+    result.push(...chars.slice(pos, start));
+    for (const letter of replacement) {
+      result.push({ ...chars[start], letter: letter });
     }
+    pos = start + length;
   }
 
-  return result;
+  return [...result, ...chars.slice(pos)];
 }

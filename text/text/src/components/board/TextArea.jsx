@@ -1,5 +1,5 @@
 import { useEffect, useRef, memo } from "react";
-import "./TextArea.css";
+import "../../style/TextArea.css";
 import Icon from "../common/Icon";
 
 // אות אחת. memo: אות שלא השתנתה לא מצטיירת מחדש בכל הקלדה

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "../../common/Icon";
-import "./LanguageSwitcher.css";
+import "../../../style/LanguageSwitcher.css";
 import { languageNames } from "../../../data/keyboardLayouts";
 
 function LanguageSwitcher({ language, languages, onChange }) {

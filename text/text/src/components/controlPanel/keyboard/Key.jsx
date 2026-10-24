@@ -1,4 +1,4 @@
-import "./Key.css";
+import "../../../style/Key.css";
 
 function Key({ value, label, ariaLabel, onPress, special = false, className = "" }) {
   const isSpace = value === " ";

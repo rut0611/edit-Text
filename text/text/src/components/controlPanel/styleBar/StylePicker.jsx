@@ -1,4 +1,4 @@
-import "./StylePicker.css";
+import "../../../style/StylePicker.css";
 
 function StylePicker({ label, options, value, onChange, variant = "select" }) {
   if (variant === "swatch") {

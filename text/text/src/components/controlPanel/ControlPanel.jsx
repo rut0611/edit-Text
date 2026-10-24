@@ -1,10 +1,11 @@
 import { useState } from "react";
-import "./ControlPanel.css";
+import "../../style/ControlPanel.css";
 import Keyboard from "./keyboard/Keyboard";
 import StyleBar from "./styleBar/StyleBar";
 import EditTools from "./editTools/EditTools";
 
 function ControlPanel({
+  children,
   style,
   scope,
   canUndo,
@@ -28,6 +29,7 @@ function ControlPanel({
         onDelete={onDelete}
       />
       <div className="tools-area">
+        {children}
         <StyleBar
           style={style}
           scope={scope}

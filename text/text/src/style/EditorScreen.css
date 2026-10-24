@@ -371,8 +371,10 @@
   box-shadow: none;
   border-radius: 0;
   padding: 0;
+   background-position: left bottom;
+  background-size: 40%;
   /* background: linear-gradient(145deg, #e9d3b0, #d8b98e); */
-  /* background: url("../media/image.jpg") center / cover no-repeat; */
+  /* background: url("../media/side.png") center / cover no-repeat; */
 }
 
 /* תמונה בפאנל הצד (בתחתית) */
@@ -417,4 +419,36 @@
     0 10px 10px rgba(40, 22, 8, 0.371),
     0 10px 10px rgba(40, 22, 8, 0.441),
     inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+/* ================= עדכון 4 ================= */
+
+/* ---- צד ימין: יותר מקום לעיצוב, בלי חיתוך ---- */
+@media (min-width: 901px) {
+  .app .tools-area {
+    grid-template-rows: minmax(0, 1fr) auto auto;
+  }
+}
+
+.app .style-bar {
+  padding: 8px 12px;
+  gap: 6px;
+  min-height: max-content;
+}
+
+.app .edit-tools {
+  min-height: max-content;
+}
+
+/* ---- פאנל הצד: התמונה מתחת לכל הדברים, מוצגת במלואה ---- */
+.app .side-panel::after {
+  display: none;
+}
+
+.app .side-panel {
+  background-color: #d9bd96;
+  /* כשתוסיף תמונה, בטל את ההערה (שם הקובץ בתיקיית media): */
+  background-image: url("../media/file.png");
+  background-position: left bottom;
+  background-size: 45%;
+  background-repeat: no-repeat;
 }
